@@ -1,0 +1,409 @@
+location_name,year_id,sex,age_group,mean,lower,upper,measure
+China,2019,Male,0 to 19,20484459,15126752,27367443,Number of people with BLLs >5 ug/dL
+China,2019,Female,0 to 19,10714717,7801585,14460260,Number of people with BLLs >5 ug/dL
+Democratic People's Republic of Korea,2019,Male,0 to 19,2794012,1634381,3324744,Number of people with BLLs >5 ug/dL
+Democratic People's Republic of Korea,2019,Female,0 to 19,2081073,865312,2989479,Number of people with BLLs >5 ug/dL
+Taiwan (Province of China),2019,Male,0 to 19,28285,12071,62854,Number of people with BLLs >5 ug/dL
+Taiwan (Province of China),2019,Female,0 to 19,10247,5009,20168,Number of people with BLLs >5 ug/dL
+Cambodia,2019,Male,0 to 19,1886640,802359,2856721,Number of people with BLLs >5 ug/dL
+Cambodia,2019,Female,0 to 19,1284619,375497,2317478,Number of people with BLLs >5 ug/dL
+Indonesia,2019,Male,0 to 19,5314468,3517544,7643702,Number of people with BLLs >5 ug/dL
+Indonesia,2019,Female,0 to 19,2957395,1969210,4355280,Number of people with BLLs >5 ug/dL
+Lao People's Democratic Republic,2019,Male,0 to 19,338571,75876,801670,Number of people with BLLs >5 ug/dL
+Lao People's Democratic Republic,2019,Female,0 to 19,239482,48749,631417,Number of people with BLLs >5 ug/dL
+Malaysia,2019,Male,0 to 19,32026,13447,68835,Number of people with BLLs >5 ug/dL
+Malaysia,2019,Female,0 to 19,24923,10873,53260,Number of people with BLLs >5 ug/dL
+Maldives,2019,Male,0 to 19,4185,941,13226,Number of people with BLLs >5 ug/dL
+Maldives,2019,Female,0 to 19,2325,626,7072,Number of people with BLLs >5 ug/dL
+Myanmar,2019,Male,0 to 19,2864232,723241,6111841,Number of people with BLLs >5 ug/dL
+Myanmar,2019,Female,0 to 19,1831545,388749,4680998,Number of people with BLLs >5 ug/dL
+Philippines,2019,Male,0 to 19,13374579,5006349,20976023,Number of people with BLLs >5 ug/dL
+Philippines,2019,Female,0 to 19,6649622,1764867,13795504,Number of people with BLLs >5 ug/dL
+Sri Lanka,2019,Male,0 to 19,161180,38259,501700,Number of people with BLLs >5 ug/dL
+Sri Lanka,2019,Female,0 to 19,76951,21718,236774,Number of people with BLLs >5 ug/dL
+Thailand,2019,Male,0 to 19,89075,29227,213171,Number of people with BLLs >5 ug/dL
+Thailand,2019,Female,0 to 19,39309,17292,91298,Number of people with BLLs >5 ug/dL
+Timor-Leste,2019,Male,0 to 19,156629,51310,266711,Number of people with BLLs >5 ug/dL
+Timor-Leste,2019,Female,0 to 19,117269,33170,222006,Number of people with BLLs >5 ug/dL
+Viet Nam,2019,Male,0 to 19,2268608,491284,6087895,Number of people with BLLs >5 ug/dL
+Viet Nam,2019,Female,0 to 19,973584,220078,2906015,Number of people with BLLs >5 ug/dL
+Fiji,2019,Male,0 to 19,1146,466,2481,Number of people with BLLs >5 ug/dL
+Fiji,2019,Female,0 to 19,1083,432,2443,Number of people with BLLs >5 ug/dL
+Kiribati,2019,Male,0 to 19,7018,1881,14474,Number of people with BLLs >5 ug/dL
+Kiribati,2019,Female,0 to 19,4368,955,10161,Number of people with BLLs >5 ug/dL
+Marshall Islands,2019,Male,0 to 19,623,148,1841,Number of people with BLLs >5 ug/dL
+Marshall Islands,2019,Female,0 to 19,517,121,1558,Number of people with BLLs >5 ug/dL
+Micronesia (Federated States of),2019,Male,0 to 19,1480,350,4615,Number of people with BLLs >5 ug/dL
+Micronesia (Federated States of),2019,Female,0 to 19,828,197,2510,Number of people with BLLs >5 ug/dL
+Papua New Guinea,2019,Male,0 to 19,57204,17069,159587,Number of people with BLLs >5 ug/dL
+Papua New Guinea,2019,Female,0 to 19,46295,13528,135086,Number of people with BLLs >5 ug/dL
+Samoa,2019,Male,0 to 19,1520,386,4817,Number of people with BLLs >5 ug/dL
+Samoa,2019,Female,0 to 19,1078,283,3334,Number of people with BLLs >5 ug/dL
+Solomon Islands,2019,Male,0 to 19,55757,16477,102573,Number of people with BLLs >5 ug/dL
+Solomon Islands,2019,Female,0 to 19,39296,11005,77586,Number of people with BLLs >5 ug/dL
+Tonga,2019,Male,0 to 19,351,105,994,Number of people with BLLs >5 ug/dL
+Tonga,2019,Female,0 to 19,318,106,919,Number of people with BLLs >5 ug/dL
+Vanuatu,2019,Male,0 to 19,7312,1483,20017,Number of people with BLLs >5 ug/dL
+Vanuatu,2019,Female,0 to 19,6904,1489,18529,Number of people with BLLs >5 ug/dL
+Armenia,2019,Male,0 to 19,36961,16527,71336,Number of people with BLLs >5 ug/dL
+Armenia,2019,Female,0 to 19,35601,16142,69579,Number of people with BLLs >5 ug/dL
+Azerbaijan,2019,Male,0 to 19,116765,52443,223218,Number of people with BLLs >5 ug/dL
+Azerbaijan,2019,Female,0 to 19,111175,48765,215914,Number of people with BLLs >5 ug/dL
+Georgia,2019,Male,0 to 19,33309,14296,63571,Number of people with BLLs >5 ug/dL
+Georgia,2019,Female,0 to 19,31716,14221,61447,Number of people with BLLs >5 ug/dL
+Kazakhstan,2019,Male,0 to 19,148567,67747,282902,Number of people with BLLs >5 ug/dL
+Kazakhstan,2019,Female,0 to 19,158080,72370,304172,Number of people with BLLs >5 ug/dL
+Kyrgyzstan,2019,Male,0 to 19,246973,110985,477947,Number of people with BLLs >5 ug/dL
+Kyrgyzstan,2019,Female,0 to 19,246424,110158,475050,Number of people with BLLs >5 ug/dL
+Mongolia,2019,Male,0 to 19,69261,32085,131578,Number of people with BLLs >5 ug/dL
+Mongolia,2019,Female,0 to 19,71279,30908,138992,Number of people with BLLs >5 ug/dL
+Tajikistan,2019,Male,0 to 19,889533,454870,1400398,Number of people with BLLs >5 ug/dL
+Tajikistan,2019,Female,0 to 19,815284,412616,1306465,Number of people with BLLs >5 ug/dL
+Turkmenistan,2019,Male,0 to 19,52925,24110,102243,Number of people with BLLs >5 ug/dL
+Turkmenistan,2019,Female,0 to 19,60137,26787,116706,Number of people with BLLs >5 ug/dL
+Uzbekistan,2019,Male,0 to 19,785603,362536,1514100,Number of people with BLLs >5 ug/dL
+Uzbekistan,2019,Female,0 to 19,856676,387538,1665038,Number of people with BLLs >5 ug/dL
+Albania,2019,Male,0 to 19,108172,50435,186266,Number of people with BLLs >5 ug/dL
+Albania,2019,Female,0 to 19,62623,28488,118509,Number of people with BLLs >5 ug/dL
+Bosnia and Herzegovina,2019,Male,0 to 19,52218,23843,97810,Number of people with BLLs >5 ug/dL
+Bosnia and Herzegovina,2019,Female,0 to 19,40430,18371,77519,Number of people with BLLs >5 ug/dL
+Bulgaria,2019,Male,0 to 19,40780,18367,80034,Number of people with BLLs >5 ug/dL
+Bulgaria,2019,Female,0 to 19,26046,12187,50715,Number of people with BLLs >5 ug/dL
+Croatia,2019,Male,0 to 19,16920,7995,32506,Number of people with BLLs >5 ug/dL
+Croatia,2019,Female,0 to 19,11903,6408,23221,Number of people with BLLs >5 ug/dL
+Czechia,2019,Male,0 to 19,43821,21774,84476,Number of people with BLLs >5 ug/dL
+Czechia,2019,Female,0 to 19,26088,15392,50000,Number of people with BLLs >5 ug/dL
+Hungary,2019,Male,0 to 19,62343,29499,116298,Number of people with BLLs >5 ug/dL
+Hungary,2019,Female,0 to 19,39227,17811,75987,Number of people with BLLs >5 ug/dL
+North Macedonia,2019,Male,0 to 19,26517,12102,50214,Number of people with BLLs >5 ug/dL
+North Macedonia,2019,Female,0 to 19,19646,8888,38066,Number of people with BLLs >5 ug/dL
+Montenegro,2019,Male,0 to 19,3738,1722,7103,Number of people with BLLs >5 ug/dL
+Montenegro,2019,Female,0 to 19,3188,1465,6124,Number of people with BLLs >5 ug/dL
+Poland,2019,Male,0 to 19,166792,79134,315821,Number of people with BLLs >5 ug/dL
+Poland,2019,Female,0 to 19,100840,56051,181975,Number of people with BLLs >5 ug/dL
+Romania,2019,Male,0 to 19,232773,105378,449645,Number of people with BLLs >5 ug/dL
+Romania,2019,Female,0 to 19,169667,76156,333079,Number of people with BLLs >5 ug/dL
+Serbia,2019,Male,0 to 19,112650,52835,215726,Number of people with BLLs >5 ug/dL
+Serbia,2019,Female,0 to 19,51741,24993,98312,Number of people with BLLs >5 ug/dL
+Slovakia,2019,Male,0 to 19,23552,11064,43688,Number of people with BLLs >5 ug/dL
+Slovakia,2019,Female,0 to 19,16036,8644,29494,Number of people with BLLs >5 ug/dL
+Slovenia,2019,Male,0 to 19,4663,2627,8455,Number of people with BLLs >5 ug/dL
+Slovenia,2019,Female,0 to 19,3342,2030,5745,Number of people with BLLs >5 ug/dL
+Belarus,2019,Male,0 to 19,129501,60903,252009,Number of people with BLLs >5 ug/dL
+Belarus,2019,Female,0 to 19,78947,35160,152558,Number of people with BLLs >5 ug/dL
+Estonia,2019,Male,0 to 19,6552,3025,12526,Number of people with BLLs >5 ug/dL
+Estonia,2019,Female,0 to 19,4163,2072,7814,Number of people with BLLs >5 ug/dL
+Latvia,2019,Male,0 to 19,13262,6195,25688,Number of people with BLLs >5 ug/dL
+Latvia,2019,Female,0 to 19,8978,4080,17332,Number of people with BLLs >5 ug/dL
+Lithuania,2019,Male,0 to 19,12521,5646,23769,Number of people with BLLs >5 ug/dL
+Lithuania,2019,Female,0 to 19,8475,4171,16250,Number of people with BLLs >5 ug/dL
+Republic of Moldova,2019,Male,0 to 19,111041,51796,191930,Number of people with BLLs >5 ug/dL
+Republic of Moldova,2019,Female,0 to 19,82004,37696,151056,Number of people with BLLs >5 ug/dL
+Russian Federation,2019,Male,0 to 19,1854819,852266,3503413,Number of people with BLLs >5 ug/dL
+Russian Federation,2019,Female,0 to 19,1259020,571978,2424948,Number of people with BLLs >5 ug/dL
+Ukraine,2019,Male,0 to 19,173753,83321,339377,Number of people with BLLs >5 ug/dL
+Ukraine,2019,Female,0 to 19,89440,50478,165082,Number of people with BLLs >5 ug/dL
+Brunei Darussalam,2019,Male,0 to 19,1739,944,3395,Number of people with BLLs >5 ug/dL
+Brunei Darussalam,2019,Female,0 to 19,1026,575,1582,Number of people with BLLs >5 ug/dL
+Japan,2019,Male,0 to 19,187418,154217,228275,Number of people with BLLs >5 ug/dL
+Japan,2019,Female,0 to 19,131643,110629,151214,Number of people with BLLs >5 ug/dL
+Republic of Korea,2019,Male,0 to 19,132434,78210,239273,Number of people with BLLs >5 ug/dL
+Republic of Korea,2019,Female,0 to 19,86745,54758,135787,Number of people with BLLs >5 ug/dL
+Singapore,2019,Male,0 to 19,21739,10060,43778,Number of people with BLLs >5 ug/dL
+Singapore,2019,Female,0 to 19,19960,9404,39842,Number of people with BLLs >5 ug/dL
+Australia,2019,Male,0 to 19,71272,40914,136168,Number of people with BLLs >5 ug/dL
+Australia,2019,Female,0 to 19,45132,25942,72785,Number of people with BLLs >5 ug/dL
+New Zealand,2019,Male,0 to 19,30066,13365,60971,Number of people with BLLs >5 ug/dL
+New Zealand,2019,Female,0 to 19,17598,8393,33725,Number of people with BLLs >5 ug/dL
+Andorra,2019,Male,0 to 19,104,61,169,Number of people with BLLs >5 ug/dL
+Andorra,2019,Female,0 to 19,69,46,113,Number of people with BLLs >5 ug/dL
+Austria,2019,Male,0 to 19,13314,7898,22547,Number of people with BLLs >5 ug/dL
+Austria,2019,Female,0 to 19,13355,7403,21702,Number of people with BLLs >5 ug/dL
+Belgium,2019,Male,0 to 19,120749,53348,241417,Number of people with BLLs >5 ug/dL
+Belgium,2019,Female,0 to 19,83348,36529,171003,Number of people with BLLs >5 ug/dL
+Cyprus,2019,Male,0 to 19,3026,1797,5527,Number of people with BLLs >5 ug/dL
+Cyprus,2019,Female,0 to 19,2180,1225,3554,Number of people with BLLs >5 ug/dL
+Denmark,2019,Male,0 to 19,12884,7532,22594,Number of people with BLLs >5 ug/dL
+Denmark,2019,Female,0 to 19,13734,8139,26599,Number of people with BLLs >5 ug/dL
+Finland,2019,Male,0 to 19,6888,4339,10270,Number of people with BLLs >5 ug/dL
+Finland,2019,Female,0 to 19,4329,2897,6842,Number of people with BLLs >5 ug/dL
+France,2019,Male,0 to 19,187302,111231,351701,Number of people with BLLs >5 ug/dL
+France,2019,Female,0 to 19,145020,91703,236595,Number of people with BLLs >5 ug/dL
+Germany,2019,Male,0 to 19,203680,104960,386276,Number of people with BLLs >5 ug/dL
+Germany,2019,Female,0 to 19,129579,74022,233358,Number of people with BLLs >5 ug/dL
+Greece,2019,Male,0 to 19,40474,18641,79905,Number of people with BLLs >5 ug/dL
+Greece,2019,Female,0 to 19,26043,12860,50058,Number of people with BLLs >5 ug/dL
+Iceland,2019,Male,0 to 19,513,320,850,Number of people with BLLs >5 ug/dL
+Iceland,2019,Female,0 to 19,431,282,690,Number of people with BLLs >5 ug/dL
+Ireland,2019,Male,0 to 19,14707,8482,26362,Number of people with BLLs >5 ug/dL
+Ireland,2019,Female,0 to 19,11738,6904,20634,Number of people with BLLs >5 ug/dL
+Israel,2019,Male,0 to 19,57338,29560,117979,Number of people with BLLs >5 ug/dL
+Israel,2019,Female,0 to 19,29093,17488,52465,Number of people with BLLs >5 ug/dL
+Italy,2019,Male,0 to 19,96345,57899,169418,Number of people with BLLs >5 ug/dL
+Italy,2019,Female,0 to 19,64517,40128,100167,Number of people with BLLs >5 ug/dL
+Luxembourg,2019,Male,0 to 19,976,559,1509,Number of people with BLLs >5 ug/dL
+Luxembourg,2019,Female,0 to 19,701,445,1169,Number of people with BLLs >5 ug/dL
+Malta,2019,Male,0 to 19,5612,2391,11306,Number of people with BLLs >5 ug/dL
+Malta,2019,Female,0 to 19,787,458,1409,Number of people with BLLs >5 ug/dL
+Netherlands,2019,Male,0 to 19,34082,20194,56022,Number of people with BLLs >5 ug/dL
+Netherlands,2019,Female,0 to 19,24804,14321,39802,Number of people with BLLs >5 ug/dL
+Norway,2019,Male,0 to 19,13367,7758,24683,Number of people with BLLs >5 ug/dL
+Norway,2019,Female,0 to 19,9260,5271,15172,Number of people with BLLs >5 ug/dL
+Portugal,2019,Male,0 to 19,62476,25319,123270,Number of people with BLLs >5 ug/dL
+Portugal,2019,Female,0 to 19,35269,16940,73240,Number of people with BLLs >5 ug/dL
+Spain,2019,Male,0 to 19,156669,77548,325203,Number of people with BLLs >5 ug/dL
+Spain,2019,Female,0 to 19,97470,62326,187277,Number of people with BLLs >5 ug/dL
+Sweden,2019,Male,0 to 19,16102,9877,25052,Number of people with BLLs >5 ug/dL
+Sweden,2019,Female,0 to 19,11810,7922,18099,Number of people with BLLs >5 ug/dL
+Switzerland,2019,Male,0 to 19,39317,17873,79772,Number of people with BLLs >5 ug/dL
+Switzerland,2019,Female,0 to 19,15384,9034,28622,Number of people with BLLs >5 ug/dL
+United Kingdom,2019,Male,0 to 19,125705,107421,166255,Number of people with BLLs >5 ug/dL
+United Kingdom,2019,Female,0 to 19,87887,78637,115085,Number of people with BLLs >5 ug/dL
+Argentina,2019,Male,0 to 19,596716,276638,1162237,Number of people with BLLs >5 ug/dL
+Argentina,2019,Female,0 to 19,355100,155034,717702,Number of people with BLLs >5 ug/dL
+Chile,2019,Male,0 to 19,82711,37805,153506,Number of people with BLLs >5 ug/dL
+Chile,2019,Female,0 to 19,61217,31014,117943,Number of people with BLLs >5 ug/dL
+Uruguay,2019,Male,0 to 19,98026,45568,178655,Number of people with BLLs >5 ug/dL
+Uruguay,2019,Female,0 to 19,80718,34631,154456,Number of people with BLLs >5 ug/dL
+Canada,2019,Male,0 to 19,74029,46532,131031,Number of people with BLLs >5 ug/dL
+Canada,2019,Female,0 to 19,54825,32444,90013,Number of people with BLLs >5 ug/dL
+United States of America,2019,Male,0 to 19,700117,420567,1194449,Number of people with BLLs >5 ug/dL
+United States of America,2019,Female,0 to 19,522856,329004,882193,Number of people with BLLs >5 ug/dL
+Antigua and Barbuda,2019,Male,0 to 19,505,162,1165,Number of people with BLLs >5 ug/dL
+Antigua and Barbuda,2019,Female,0 to 19,387,121,880,Number of people with BLLs >5 ug/dL
+Bahamas,2019,Male,0 to 19,1532,509,3634,Number of people with BLLs >5 ug/dL
+Bahamas,2019,Female,0 to 19,1401,495,3203,Number of people with BLLs >5 ug/dL
+Barbados,2019,Male,0 to 19,1181,366,2637,Number of people with BLLs >5 ug/dL
+Barbados,2019,Female,0 to 19,798,284,1888,Number of people with BLLs >5 ug/dL
+Belize,2019,Male,0 to 19,5044,1791,11576,Number of people with BLLs >5 ug/dL
+Belize,2019,Female,0 to 19,4792,1727,10957,Number of people with BLLs >5 ug/dL
+Cuba,2019,Male,0 to 19,554994,217330,952378,Number of people with BLLs >5 ug/dL
+Cuba,2019,Female,0 to 19,325050,108992,667805,Number of people with BLLs >5 ug/dL
+Dominica,2019,Male,0 to 19,421,137,1001,Number of people with BLLs >5 ug/dL
+Dominica,2019,Female,0 to 19,596,191,1485,Number of people with BLLs >5 ug/dL
+Dominican Republic,2019,Male,0 to 19,785308,279945,1395678,Number of people with BLLs >5 ug/dL
+Dominican Republic,2019,Female,0 to 19,557421,184436,1126139,Number of people with BLLs >5 ug/dL
+Grenada,2019,Male,0 to 19,1483,515,3666,Number of people with BLLs >5 ug/dL
+Grenada,2019,Female,0 to 19,1493,505,3639,Number of people with BLLs >5 ug/dL
+Guyana,2019,Male,0 to 19,39169,12566,84661,Number of people with BLLs >5 ug/dL
+Guyana,2019,Female,0 to 19,28358,8610,64741,Number of people with BLLs >5 ug/dL
+Haiti,2019,Male,0 to 19,2424698,1851956,2654952,Number of people with BLLs >5 ug/dL
+Haiti,2019,Female,0 to 19,2140121,1306190,2575992,Number of people with BLLs >5 ug/dL
+Jamaica,2019,Male,0 to 19,75340,23273,174734,Number of people with BLLs >5 ug/dL
+Jamaica,2019,Female,0 to 19,57406,18459,136361,Number of people with BLLs >5 ug/dL
+Saint Lucia,2019,Male,0 to 19,1254,423,2960,Number of people with BLLs >5 ug/dL
+Saint Lucia,2019,Female,0 to 19,1350,444,3350,Number of people with BLLs >5 ug/dL
+Saint Vincent and the Grenadines,2019,Male,0 to 19,2520,802,6123,Number of people with BLLs >5 ug/dL
+Saint Vincent and the Grenadines,2019,Female,0 to 19,2041,644,5047,Number of people with BLLs >5 ug/dL
+Suriname,2019,Male,0 to 19,8778,2986,22194,Number of people with BLLs >5 ug/dL
+Suriname,2019,Female,0 to 19,5450,1729,13743,Number of people with BLLs >5 ug/dL
+Trinidad and Tobago,2019,Male,0 to 19,3378,1367,7988,Number of people with BLLs >5 ug/dL
+Trinidad and Tobago,2019,Female,0 to 19,1852,952,3742,Number of people with BLLs >5 ug/dL
+Bolivia (Plurinational State of),2019,Male,0 to 19,1685522,891295,2267791,Number of people with BLLs >5 ug/dL
+Bolivia (Plurinational State of),2019,Female,0 to 19,1545632,794221,2146415,Number of people with BLLs >5 ug/dL
+Ecuador,2019,Male,0 to 19,397557,122900,964782,Number of people with BLLs >5 ug/dL
+Ecuador,2019,Female,0 to 19,204199,66135,501455,Number of people with BLLs >5 ug/dL
+Peru,2019,Male,0 to 19,3830555,1982580,5375377,Number of people with BLLs >5 ug/dL
+Peru,2019,Female,0 to 19,3302386,1606324,4831126,Number of people with BLLs >5 ug/dL
+Colombia,2019,Male,0 to 19,382392,135242,912925,Number of people with BLLs >5 ug/dL
+Colombia,2019,Female,0 to 19,206256,70361,489311,Number of people with BLLs >5 ug/dL
+Costa Rica,2019,Male,0 to 19,137928,41945,310259,Number of people with BLLs >5 ug/dL
+Costa Rica,2019,Female,0 to 19,53574,17541,131812,Number of people with BLLs >5 ug/dL
+El Salvador,2019,Male,0 to 19,466941,169878,838209,Number of people with BLLs >5 ug/dL
+El Salvador,2019,Female,0 to 19,223467,69522,510172,Number of people with BLLs >5 ug/dL
+Guatemala,2019,Male,0 to 19,2717246,1487565,3566333,Number of people with BLLs >5 ug/dL
+Guatemala,2019,Female,0 to 19,1532353,558573,2763742,Number of people with BLLs >5 ug/dL
+Honduras,2019,Male,0 to 19,1301022,601632,1905706,Number of people with BLLs >5 ug/dL
+Honduras,2019,Female,0 to 19,817408,290523,1509691,Number of people with BLLs >5 ug/dL
+Mexico,2019,Male,0 to 19,7591257,6134890,9236981,Number of people with BLLs >5 ug/dL
+Mexico,2019,Female,0 to 19,6264807,4972652,7724136,Number of people with BLLs >5 ug/dL
+Nicaragua,2019,Male,0 to 19,171697,55746,416918,Number of people with BLLs >5 ug/dL
+Nicaragua,2019,Female,0 to 19,62586,21972,150894,Number of people with BLLs >5 ug/dL
+Panama,2019,Male,0 to 19,94706,30002,226546,Number of people with BLLs >5 ug/dL
+Panama,2019,Female,0 to 19,46527,14943,117672,Number of people with BLLs >5 ug/dL
+Venezuela (Bolivarian Republic of),2019,Male,0 to 19,1821566,698882,3265761,Number of people with BLLs >5 ug/dL
+Venezuela (Bolivarian Republic of),2019,Female,0 to 19,1051835,327867,2297019,Number of people with BLLs >5 ug/dL
+Brazil,2019,Male,0 to 19,2474671,1913514,3178738,Number of people with BLLs >5 ug/dL
+Brazil,2019,Female,0 to 19,1928971,1433784,2488223,Number of people with BLLs >5 ug/dL
+Paraguay,2019,Male,0 to 19,85366,28087,212280,Number of people with BLLs >5 ug/dL
+Paraguay,2019,Female,0 to 19,400039,123220,831365,Number of people with BLLs >5 ug/dL
+Algeria,2019,Male,0 to 19,1826134,815483,3483423,Number of people with BLLs >5 ug/dL
+Algeria,2019,Female,0 to 19,1084287,470633,2146330,Number of people with BLLs >5 ug/dL
+Bahrain,2019,Male,0 to 19,15275,6574,30976,Number of people with BLLs >5 ug/dL
+Bahrain,2019,Female,0 to 19,9073,3953,18128,Number of people with BLLs >5 ug/dL
+Egypt,2019,Male,0 to 19,14294688,10005409,17736524,Number of people with BLLs >5 ug/dL
+Egypt,2019,Female,0 to 19,11107891,6987433,14985469,Number of people with BLLs >5 ug/dL
+Iran (Islamic Republic of),2019,Male,0 to 19,6378598,3259932,9566404,Number of people with BLLs >5 ug/dL
+Iran (Islamic Republic of),2019,Female,0 to 19,3912979,1798966,6858080,Number of people with BLLs >5 ug/dL
+Iraq,2019,Male,0 to 19,3503025,1908793,5524992,Number of people with BLLs >5 ug/dL
+Iraq,2019,Female,0 to 19,1907818,946481,3337099,Number of people with BLLs >5 ug/dL
+Jordan,2019,Male,0 to 19,260234,113565,524166,Number of people with BLLs >5 ug/dL
+Jordan,2019,Female,0 to 19,230253,98624,463072,Number of people with BLLs >5 ug/dL
+Kuwait,2019,Male,0 to 19,21461,10675,43308,Number of people with BLLs >5 ug/dL
+Kuwait,2019,Female,0 to 19,13543,7320,25618,Number of people with BLLs >5 ug/dL
+Lebanon,2019,Male,0 to 19,20138,11744,35415,Number of people with BLLs >5 ug/dL
+Lebanon,2019,Female,0 to 19,9697,6000,16320,Number of people with BLLs >5 ug/dL
+Libya,2019,Male,0 to 19,61923,26929,124067,Number of people with BLLs >5 ug/dL
+Libya,2019,Female,0 to 19,46636,20902,92198,Number of people with BLLs >5 ug/dL
+Morocco,2019,Male,0 to 19,1296474,669181,2240743,Number of people with BLLs >5 ug/dL
+Morocco,2019,Female,0 to 19,571246,276266,1050763,Number of people with BLLs >5 ug/dL
+Palestine,2019,Male,0 to 19,74583,32056,143638,Number of people with BLLs >5 ug/dL
+Palestine,2019,Female,0 to 19,51991,23361,103442,Number of people with BLLs >5 ug/dL
+Oman,2019,Male,0 to 19,29005,13288,58098,Number of people with BLLs >5 ug/dL
+Oman,2019,Female,0 to 19,24060,11420,47958,Number of people with BLLs >5 ug/dL
+Qatar,2019,Male,0 to 19,14010,6241,27589,Number of people with BLLs >5 ug/dL
+Qatar,2019,Female,0 to 19,8974,4276,18042,Number of people with BLLs >5 ug/dL
+Saudi Arabia,2019,Male,0 to 19,210232,103317,414978,Number of people with BLLs >5 ug/dL
+Saudi Arabia,2019,Female,0 to 19,158534,81249,314554,Number of people with BLLs >5 ug/dL
+Syrian Arab Republic,2019,Male,0 to 19,1100912,514270,1852090,Number of people with BLLs >5 ug/dL
+Syrian Arab Republic,2019,Female,0 to 19,804928,357541,1466131,Number of people with BLLs >5 ug/dL
+Tunisia,2019,Male,0 to 19,271720,119023,533042,Number of people with BLLs >5 ug/dL
+Tunisia,2019,Female,0 to 19,196038,86917,395690,Number of people with BLLs >5 ug/dL
+Turkey,2019,Male,0 to 19,375180,178256,689754,Number of people with BLLs >5 ug/dL
+Turkey,2019,Female,0 to 19,268582,143289,505834,Number of people with BLLs >5 ug/dL
+United Arab Emirates,2019,Male,0 to 19,20196,10631,39582,Number of people with BLLs >5 ug/dL
+United Arab Emirates,2019,Female,0 to 19,21728,11208,41596,Number of people with BLLs >5 ug/dL
+Yemen,2019,Male,0 to 19,7477548,6910808,7695688,Number of people with BLLs >5 ug/dL
+Yemen,2019,Female,0 to 19,6319386,4736948,7165801,Number of people with BLLs >5 ug/dL
+Afghanistan,2019,Male,0 to 19,10087496,9700476,10347566,Number of people with BLLs >5 ug/dL
+Afghanistan,2019,Female,0 to 19,9364606,8574400,9668668,Number of people with BLLs >5 ug/dL
+Bangladesh,2019,Male,0 to 19,19575071,13768264,24122312,Number of people with BLLs >5 ug/dL
+Bangladesh,2019,Female,0 to 19,15952600,9871394,21836948,Number of people with BLLs >5 ug/dL
+Bhutan,2019,Male,0 to 19,11293,5175,20950,Number of people with BLLs >5 ug/dL
+Bhutan,2019,Female,0 to 19,13682,6265,25335,Number of people with BLLs >5 ug/dL
+India,2019,Male,0 to 19,143583909,126216789,161084665,Number of people with BLLs >5 ug/dL
+India,2019,Female,0 to 19,131977254,116416926,148378224,Number of people with BLLs >5 ug/dL
+Nepal,2019,Male,0 to 19,3876441,2421477,5071675,Number of people with BLLs >5 ug/dL
+Nepal,2019,Female,0 to 19,2842794,1513174,4259845,Number of people with BLLs >5 ug/dL
+Pakistan,2019,Male,0 to 19,24314552,13082563,37200567,Number of people with BLLs >5 ug/dL
+Pakistan,2019,Female,0 to 19,16806849,8188544,28064798,Number of people with BLLs >5 ug/dL
+Angola,2019,Male,0 to 19,2559134,1180127,4444055,Number of people with BLLs >5 ug/dL
+Angola,2019,Female,0 to 19,2178995,1003077,3914557,Number of people with BLLs >5 ug/dL
+Central African Republic,2019,Male,0 to 19,902054,581023,1156380,Number of people with BLLs >5 ug/dL
+Central African Republic,2019,Female,0 to 19,834345,509223,1115354,Number of people with BLLs >5 ug/dL
+Congo,2019,Male,0 to 19,143186,65430,271588,Number of people with BLLs >5 ug/dL
+Congo,2019,Female,0 to 19,136588,60737,266702,Number of people with BLLs >5 ug/dL
+Democratic Republic of the Congo,2019,Male,0 to 19,12566334,6909010,17808783,Number of people with BLLs >5 ug/dL
+Democratic Republic of the Congo,2019,Female,0 to 19,11377330,6082370,16833175,Number of people with BLLs >5 ug/dL
+Equatorial Guinea,2019,Male,0 to 19,17549,8119,33999,Number of people with BLLs >5 ug/dL
+Equatorial Guinea,2019,Female,0 to 19,18987,8725,35983,Number of people with BLLs >5 ug/dL
+Gabon,2019,Male,0 to 19,21799,10035,41896,Number of people with BLLs >5 ug/dL
+Gabon,2019,Female,0 to 19,21091,9808,39775,Number of people with BLLs >5 ug/dL
+Burundi,2019,Male,0 to 19,1739016,970545,2501940,Number of people with BLLs >5 ug/dL
+Burundi,2019,Female,0 to 19,1314117,633749,2120536,Number of people with BLLs >5 ug/dL
+Comoros,2019,Male,0 to 19,20020,9115,38776,Number of people with BLLs >5 ug/dL
+Comoros,2019,Female,0 to 19,16376,7090,31975,Number of people with BLLs >5 ug/dL
+Djibouti,2019,Male,0 to 19,37466,17083,72675,Number of people with BLLs >5 ug/dL
+Djibouti,2019,Female,0 to 19,21233,9425,41097,Number of people with BLLs >5 ug/dL
+Eritrea,2019,Male,0 to 19,262841,118436,505534,Number of people with BLLs >5 ug/dL
+Eritrea,2019,Female,0 to 19,232425,105799,442399,Number of people with BLLs >5 ug/dL
+Ethiopia,2019,Male,0 to 19,10346653,4806237,16970006,Number of people with BLLs >5 ug/dL
+Ethiopia,2019,Female,0 to 19,7681872,3586936,13590998,Number of people with BLLs >5 ug/dL
+Kenya,2019,Male,0 to 19,1655315,1215684,2220481,Number of people with BLLs >5 ug/dL
+Kenya,2019,Female,0 to 19,1176493,847411,1595446,Number of people with BLLs >5 ug/dL
+Madagascar,2019,Male,0 to 19,2796417,1371697,4453107,Number of people with BLLs >5 ug/dL
+Madagascar,2019,Female,0 to 19,2054120,967557,3699451,Number of people with BLLs >5 ug/dL
+Malawi,2019,Male,0 to 19,2037706,1007281,3214590,Number of people with BLLs >5 ug/dL
+Malawi,2019,Female,0 to 19,1393727,630739,2483265,Number of people with BLLs >5 ug/dL
+Mauritius,2019,Male,0 to 19,3012,956,8412,Number of people with BLLs >5 ug/dL
+Mauritius,2019,Female,0 to 19,1482,487,3701,Number of people with BLLs >5 ug/dL
+Mozambique,2019,Male,0 to 19,3283858,1614027,5285879,Number of people with BLLs >5 ug/dL
+Mozambique,2019,Female,0 to 19,2449123,1126640,4279479,Number of people with BLLs >5 ug/dL
+Rwanda,2019,Male,0 to 19,791579,362728,1422052,Number of people with BLLs >5 ug/dL
+Rwanda,2019,Female,0 to 19,535776,239464,1021120,Number of people with BLLs >5 ug/dL
+Seychelles,2019,Male,0 to 19,278,80,795,Number of people with BLLs >5 ug/dL
+Seychelles,2019,Female,0 to 19,217,65,570,Number of people with BLLs >5 ug/dL
+Somalia,2019,Male,0 to 19,4656427,3482226,5355746,Number of people with BLLs >5 ug/dL
+Somalia,2019,Female,0 to 19,3485284,2131584,4591946,Number of people with BLLs >5 ug/dL
+United Republic of Tanzania,2019,Male,0 to 19,4114234,1950090,7225419,Number of people with BLLs >5 ug/dL
+United Republic of Tanzania,2019,Female,0 to 19,3164425,1488583,5838633,Number of people with BLLs >5 ug/dL
+Uganda,2019,Male,0 to 19,3116728,1461987,5558304,Number of people with BLLs >5 ug/dL
+Uganda,2019,Female,0 to 19,2126822,1001747,3976201,Number of people with BLLs >5 ug/dL
+Zambia,2019,Male,0 to 19,694507,308327,1352303,Number of people with BLLs >5 ug/dL
+Zambia,2019,Female,0 to 19,496282,220036,950004,Number of people with BLLs >5 ug/dL
+Botswana,2019,Male,0 to 19,114802,54521,200398,Number of people with BLLs >5 ug/dL
+Botswana,2019,Female,0 to 19,102084,47497,183633,Number of people with BLLs >5 ug/dL
+Lesotho,2019,Male,0 to 19,288609,197553,363243,Number of people with BLLs >5 ug/dL
+Lesotho,2019,Female,0 to 19,278114,183102,355200,Number of people with BLLs >5 ug/dL
+Namibia,2019,Male,0 to 19,188030,95247,302908,Number of people with BLLs >5 ug/dL
+Namibia,2019,Female,0 to 19,173049,83644,283651,Number of people with BLLs >5 ug/dL
+South Africa,2019,Male,0 to 19,2628401,1246403,4584135,Number of people with BLLs >5 ug/dL
+South Africa,2019,Female,0 to 19,2122393,989061,3784217,Number of people with BLLs >5 ug/dL
+Eswatini,2019,Male,0 to 19,109082,56138,168687,Number of people with BLLs >5 ug/dL
+Eswatini,2019,Female,0 to 19,99743,52396,155260,Number of people with BLLs >5 ug/dL
+Zimbabwe,2019,Male,0 to 19,2971977,2347440,3345043,Number of people with BLLs >5 ug/dL
+Zimbabwe,2019,Female,0 to 19,2737858,1958705,3272117,Number of people with BLLs >5 ug/dL
+Benin,2019,Male,0 to 19,1756503,959608,2558046,Number of people with BLLs >5 ug/dL
+Benin,2019,Female,0 to 19,1392326,710277,2237050,Number of people with BLLs >5 ug/dL
+Burkina Faso,2019,Male,0 to 19,4909049,3689001,5651193,Number of people with BLLs >5 ug/dL
+Burkina Faso,2019,Female,0 to 19,4168839,2752901,5269431,Number of people with BLLs >5 ug/dL
+Cameroon,2019,Male,0 to 19,4177315,2337172,5911079,Number of people with BLLs >5 ug/dL
+Cameroon,2019,Female,0 to 19,3357161,1693411,5137776,Number of people with BLLs >5 ug/dL
+Cabo Verde,2019,Male,0 to 19,8263,3704,16007,Number of people with BLLs >5 ug/dL
+Cabo Verde,2019,Female,0 to 19,9177,4027,17374,Number of people with BLLs >5 ug/dL
+Chad,2019,Male,0 to 19,4094349,3318015,4511085,Number of people with BLLs >5 ug/dL
+Chad,2019,Female,0 to 19,3779384,2789112,4402363,Number of people with BLLs >5 ug/dL
+Côte d'Ivoire,2019,Male,0 to 19,3019665,1582574,4615219,Number of people with BLLs >5 ug/dL
+Côte d'Ivoire,2019,Female,0 to 19,2232554,1059684,3737445,Number of people with BLLs >5 ug/dL
+Gambia,2019,Male,0 to 19,300798,172455,426604,Number of people with BLLs >5 ug/dL
+Gambia,2019,Female,0 to 19,237078,118161,376485,Number of people with BLLs >5 ug/dL
+Ghana,2019,Male,0 to 19,903536,426708,1737370,Number of people with BLLs >5 ug/dL
+Ghana,2019,Female,0 to 19,828250,365747,1639210,Number of people with BLLs >5 ug/dL
+Guinea,2019,Male,0 to 19,2420608,1687062,2978373,Number of people with BLLs >5 ug/dL
+Guinea,2019,Female,0 to 19,2070097,1251230,2782365,Number of people with BLLs >5 ug/dL
+Guinea-Bissau,2019,Male,0 to 19,298417,184448,394089,Number of people with BLLs >5 ug/dL
+Guinea-Bissau,2019,Female,0 to 19,250030,135270,364007,Number of people with BLLs >5 ug/dL
+Liberia,2019,Male,0 to 19,832520,578508,1021695,Number of people with BLLs >5 ug/dL
+Liberia,2019,Female,0 to 19,687377,405504,926751,Number of people with BLLs >5 ug/dL
+Mali,2019,Male,0 to 19,5153493,4171579,5730345,Number of people with BLLs >5 ug/dL
+Mali,2019,Female,0 to 19,4561970,3235789,5448849,Number of people with BLLs >5 ug/dL
+Mauritania,2019,Male,0 to 19,262067,120911,470532,Number of people with BLLs >5 ug/dL
+Mauritania,2019,Female,0 to 19,220978,98614,410286,Number of people with BLLs >5 ug/dL
+Niger,2019,Male,0 to 19,6419394,5829652,6762888,Number of people with BLLs >5 ug/dL
+Niger,2019,Female,0 to 19,6080873,5172617,6508730,Number of people with BLLs >5 ug/dL
+Nigeria,2019,Male,0 to 19,24543485,13498171,36965010,Number of people with BLLs >5 ug/dL
+Nigeria,2019,Female,0 to 19,18634729,9399123,31384460,Number of people with BLLs >5 ug/dL
+Sao Tome and Principe,2019,Male,0 to 19,11052,5062,20036,Number of people with BLLs >5 ug/dL
+Sao Tome and Principe,2019,Female,0 to 19,9149,4113,17064,Number of people with BLLs >5 ug/dL
+Senegal,2019,Male,0 to 19,1079311,494892,1901965,Number of people with BLLs >5 ug/dL
+Senegal,2019,Female,0 to 19,817310,383436,1478353,Number of people with BLLs >5 ug/dL
+Sierra Leone,2019,Male,0 to 19,1236190,753206,1663992,Number of people with BLLs >5 ug/dL
+Sierra Leone,2019,Female,0 to 19,1061001,576077,1546982,Number of people with BLLs >5 ug/dL
+Togo,2019,Male,0 to 19,851766,426419,1314737,Number of people with BLLs >5 ug/dL
+Togo,2019,Female,0 to 19,658033,309679,1095200,Number of people with BLLs >5 ug/dL
+American Samoa,2019,Male,0 to 19,72,30,155,Number of people with BLLs >5 ug/dL
+American Samoa,2019,Female,0 to 19,61,26,140,Number of people with BLLs >5 ug/dL
+Bermuda,2019,Male,0 to 19,62,33,118,Number of people with BLLs >5 ug/dL
+Bermuda,2019,Female,0 to 19,48,26,84,Number of people with BLLs >5 ug/dL
+Cook Islands,2019,Male,0 to 19,7,4,14,Number of people with BLLs >5 ug/dL
+Cook Islands,2019,Female,0 to 19,7,4,14,Number of people with BLLs >5 ug/dL
+Greenland,2019,Male,0 to 19,655,278,1302,Number of people with BLLs >5 ug/dL
+Greenland,2019,Female,0 to 19,458,202,957,Number of people with BLLs >5 ug/dL
+Guam,2019,Male,0 to 19,83,47,170,Number of people with BLLs >5 ug/dL
+Guam,2019,Female,0 to 19,76,43,152,Number of people with BLLs >5 ug/dL
+Monaco,2019,Male,0 to 19,57,33,91,Number of people with BLLs >5 ug/dL
+Monaco,2019,Female,0 to 19,42,25,67,Number of people with BLLs >5 ug/dL
+Nauru,2019,Male,0 to 19,28,9,73,Number of people with BLLs >5 ug/dL
+Nauru,2019,Female,0 to 19,26,9,74,Number of people with BLLs >5 ug/dL
+Niue,2019,Male,0 to 19,1,<1,2,Number of people with BLLs >5 ug/dL
+Niue,2019,Female,0 to 19,1,<1,2,Number of people with BLLs >5 ug/dL
+Northern Mariana Islands,2019,Male,0 to 19,17,9,35,Number of people with BLLs >5 ug/dL
+Northern Mariana Islands,2019,Female,0 to 19,16,9,32,Number of people with BLLs >5 ug/dL
+Palau,2019,Male,0 to 19,8,4,16,Number of people with BLLs >5 ug/dL
+Palau,2019,Female,0 to 19,7,4,14,Number of people with BLLs >5 ug/dL
+Puerto Rico,2019,Male,0 to 19,3872,2100,7191,Number of people with BLLs >5 ug/dL
+Puerto Rico,2019,Female,0 to 19,3004,1664,5474,Number of people with BLLs >5 ug/dL
+Saint Kitts and Nevis,2019,Male,0 to 19,231,76,529,Number of people with BLLs >5 ug/dL
+Saint Kitts and Nevis,2019,Female,0 to 19,201,71,481,Number of people with BLLs >5 ug/dL
+San Marino,2019,Male,0 to 19,70,40,120,Number of people with BLLs >5 ug/dL
+San Marino,2019,Female,0 to 19,51,30,82,Number of people with BLLs >5 ug/dL
+Tokelau,2019,Male,0 to 19,5,1,13,Number of people with BLLs >5 ug/dL
+Tokelau,2019,Female,0 to 19,4,1,11,Number of people with BLLs >5 ug/dL
+Tuvalu,2019,Male,0 to 19,40,12,121,Number of people with BLLs >5 ug/dL
+Tuvalu,2019,Female,0 to 19,34,10,96,Number of people with BLLs >5 ug/dL
+United States Virgin Islands,2019,Male,0 to 19,174,83,384,Number of people with BLLs >5 ug/dL
+United States Virgin Islands,2019,Female,0 to 19,210,90,489,Number of people with BLLs >5 ug/dL
+South Sudan,2019,Male,0 to 19,1301101,697247,1959100,Number of people with BLLs >5 ug/dL
+South Sudan,2019,Female,0 to 19,1025320,509879,1628387,Number of people with BLLs >5 ug/dL
+Sudan,2019,Male,0 to 19,6936045,4452604,8836333,Number of people with BLLs >5 ug/dL
+Sudan,2019,Female,0 to 19,5589345,3098079,7780981,Number of people with BLLs >5 ug/dL
