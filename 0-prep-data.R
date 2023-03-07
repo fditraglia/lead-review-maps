@@ -1,7 +1,7 @@
 library(tidyverse)
 library(wbstats) # wb_data() function 
 library(readxl)
-library(fuzzyjoin)
+#library(fuzzyjoin)
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
@@ -16,20 +16,40 @@ iq_loss <- function(bll) {
 }
 
 
-# Sum the 15-19 values to get a total across M and F, then add to the 0-14
+#-------------------------------------------------------------------------------
+# Blood lead level (BLL) projections from 2019 Global Burden of Disease (GBD)
+#
+# We use data for ages 0-19
+#
+# bll5plus     count with BLL > 5 micrograms / decliter
+# bll10plus    count with BLL > 10 micrograms / decliter
+# bll          average BLL in micograms / decliter
+#-------------------------------------------------------------------------------
+bll5plus <- read_csv('data-raw/bll_above_5_ages_0_19.csv')
+bll10plus <- read_csv('data-raw/bll_above_10_ages_0_19.csv')
+bll <- read_csv('data-raw/bll_0_to_19_both_sexes.csv')
+
+#-------------------------------------------------------------------------------
+# We need to convert bll5plus and bll10plus to *proportions* rather than counts.
+# This requires population between the ages of 0 and 19. We construct this from 
+# the following variables in the World Bank database:
+#
+# SP.POP.0014.TO    total population aged 0-14
+# SP.POP.1519.FE    total female population aged 15-19
+# SP.POP.1519.MA    total male population aged 15-19
+#
+# Summing these three gives total population aged 0-19.
+#-------------------------------------------------------------------------------
 popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA')) |>  
   filter(date == 2019) |> 
   mutate(popn0019 = SP.POP.0014.TO + SP.POP.1519.FE + SP.POP.1519.MA) |> 
   select(-starts_with('SP.POP'), -iso2c)
 
 
-# Load blood lead projections from global burden of disease
-bll5plus <- read_csv('data-raw/bll_above_5_ages_0_19.csv')
-bll10plus <- read_csv('data-raw/bll_above_10_ages_0_19.csv')
-bll <- read_csv('data-raw/bll_0_to_19_both_sexes.csv')
-
 # Load aerosol data from Mengli
 aerosol <- read_excel('data-raw/20221110 global aerosol pb.xlsx', sheet = 1)
+
+
 
 
 # Come back and fix the 30-odd mismatched country names. In the meantime just
