@@ -66,3 +66,64 @@ get_lnorm_params(9, 0.7, 0.3)
 x <- seq(0, 20, by = 0.1)
 plot(x, dlnorm(x, 1.96, 0.68), type = 'l') 
 plnorm(c(5, 10), 1.96, 0.68, lower.tail = FALSE)
+
+# Compare results of Beta and Lognormal using IL aggregate data
+IL <- read_csv('./data-raw/IL_aggregate_distribution.csv')
+
+# drop_zipsbelowXXX indicates results that exclude kids born in zip codes with
+# less than XXX% of children screened by 25 months of age 
+IL_summary <- IL |> 
+  rename(total = num_drop_zipsbelow0) |> 
+  summarize(avgbll = sum(maxbll * total / sum(total)),
+            # both of these are *strictly* greater to match GBD
+            frac5plus = sum((maxbll > 5) * total / sum(total)), 
+            frac10plus = sum((maxbll > 10) * total / sum(total))) 
+
+IL_beta <- with(IL_summary, get_beta_params(avgbll, frac5plus, frac10plus))
+IL_lnorm <- with(IL_summary, get_lnorm_params(avgbll, frac5plus, frac10plus))
+
+IL_survival <- function(x) {
+  maxbll <- IL$maxbll
+  total <- IL$num_drop_zipsbelow0
+  sum((maxbll > x) * total / sum(total))
+}
+IL_survival_vec <- Vectorize(IL_survival)
+
+# How do the survival functions differ?
+bll_seq <- seq(5, 50, by = 0.1)
+plot(bll_seq, IL_survival_vec(bll_seq), type = 's', xlab = 'BLL', ylab = 'P(X>BLL)')
+IL_lnorm_survival <- plnorm(bll_seq, meanlog = IL_lnorm[1],  sdlog = IL_lnorm[2], 
+                            lower.tail = FALSE)
+IL_beta_survival <- pbeta(bll_seq / 100, shape1 = IL_beta[1], shape2 = IL_beta[2],
+                          lower.tail = FALSE)
+points(bll_seq, IL_beta_survival, type = 'l', col = 'red')
+points(bll_seq, IL_lnorm_survival, type = 'l', col = 'blue')
+
+# How to the IQ costs differ? (only look at upper tail)
+lnorm_trunc <- function(x) {
+# truncated lnorm density 
+  dlnorm(x, meanlog = IL_lnorm[1], sdlog = IL_lnorm[2]) / 
+    plnorm(5, meanlog = IL_lnorm[1], sdlog = IL_lnorm[2], lower.tail = FALSE)
+}
+
+integrate(lnorm_trunc, 5, Inf) # sanity check
+
+beta_trunc <- function(x) {
+# truncated beta density on 0 to 100
+  dbeta(x / 100, shape1 = IL_beta[1], shape2 = IL_beta[2]) /
+    pbeta(5 / 100, shape1 = IL_beta[1], shape2 = IL_beta[2], lower.tail = FALSE) / 
+    100 # don't forget Jacobian term!
+}
+
+integrate(beta_trunc, 5, Inf) # sanity check
+
+# The beta distribution underestimates by around 25% whereas the lognormal
+# overestimates by around 140%. Seems safer to go with the beta.
+IL |> 
+  rename(total = num_drop_zipsbelow0) |> 
+  filter(maxbll > 5) |> 
+  summarize(sum(iq_loss(maxbll) * total / sum(total))) |> 
+  pull()
+
+integrate(function(x) lnorm_trunc(x) * iq_loss(x), 5, Inf)
+integrate(function(x) beta_trunc(x) * iq_loss(x), 5, Inf)
