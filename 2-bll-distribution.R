@@ -4,6 +4,9 @@
 
 # We will fit beta distributions and log-normal distributions
 
+# Could also try just plugging in 5 for P(5 < X < 10) and 10 for P(X > 10) but
+# that raises the question of what to do with the mean.
+
 # For the beta, we will take a BLL of 100 as the max
 # We will use E(X) = [a / (a + b)] to *fix* the relationship between a and b
 # by imposing (theoretical mean) = (empirical mean). We will then fit the 
