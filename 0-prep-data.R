@@ -130,7 +130,7 @@ country_names <- country_names |>
     #str_detect(location_name, "Palestine") ~ NA, 
     str_detect(location_name, "Turkey") ~ 'TUR', 
     str_detect(location_name, "Yemen") ~ 'YEM', 
-    str_detect(location_name, "Congo") ~ 'COG', 
+    str_starts(location_name, "Congo") ~ 'COG', 
     str_detect(location_name, "Democratic Republic of the Congo") ~ 'COD', 
     str_detect(location_name, "United Republic of Tanzania") ~ 'TZA', 
     str_detect(location_name, "Côte d'Ivoire") ~ 'CIV', 
