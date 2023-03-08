@@ -1,18 +1,6 @@
 library(tidyverse)
 library(wbstats) # wb_data() function 
 library(readxl)
-library(sf)
-library(rnaturalearth)
-library(rnaturalearthdata)
-
-
-# IQ points lost as a function of BLL (Lanphear, 2005)
-iq_loss <- function(bll) {
-  # Previously we multiplied this by 20568 to convert to a dollar cost; here
-  # the result is in IQ points.
-  pmin(bll, 10) * 0.513 + (bll >= 10) * pmin(bll - 10, 20 - 10) * 0.19 +
-             (bll >= 20) * (bll - 20) * 0.11
-}
 
 
 #-------------------------------------------------------------------------------
@@ -70,11 +58,6 @@ popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA')) |>
   filter(date == 2019) |> 
   mutate(popn0019 = SP.POP.0014.TO + SP.POP.1519.FE + SP.POP.1519.MA) |> 
   select(-starts_with('SP.POP'), -iso2c, -date)
-
-#-------------------------------------------------------------------------------
-# Load aerosol data from Mengli
-#-------------------------------------------------------------------------------
-aerosol <- read_excel('data-raw/20221110 global aerosol pb.xlsx', sheet = 1)
 
 
 
@@ -155,11 +138,72 @@ bllGBD <- country_names |>
   left_join(total10plus) |> 
   mutate(frac5plus = total5plus / popn0019,
          frac10plus = total10plus / popn0019) 
+
+# Clean up
+rm(bll, bll10plus, bll5plus, country_names, popn, total10plus, total5plus)
   
 
-# A very simple test map: it seems like we can match on iso3
-theme_set(theme_bw())
-world <- ne_countries(scale = "medium", returnclass = "sf")
-ggplot(data = world) +
-  geom_sf(aes(fill = pop_est)) +
-  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+#-------------------------------------------------------------------------------
+# Load aerosol data 
+#-------------------------------------------------------------------------------
+aerosol <- read_excel('data-raw/20221110 global aerosol pb.xlsx', sheet = 1)
+
+#-------------------------------------------------------------------------------
+# Merge iso3c codes with aerosol
+#-------------------------------------------------------------------------------
+iso_lookup <- bllGBD |> 
+  filter(!is.na(iso3c)) |> 
+  select(iso3c, country = WBcountry) 
+
+aerosol_countries <- sort(unique(aerosol$`Country and Region`))
+aerosol_countries[!(aerosol_countries %in% iso_lookup$country)]
+
+aerosol <- aerosol |> 
+  rename(country = `Country and Region`) |> 
+  filter(!is.na(country)) |> # remove single measurement for "Indian Ocean"
+  left_join(iso_lookup) |> 
+  relocate(iso3c, country) |> 
+  mutate(iso3c = case_when(
+    str_detect(country, 'Czech Republic') ~ 'CZE',
+    str_detect(country, 'Egypt') ~ '',
+    str_detect(country, 'Kazahkstan') ~ 'KAZ',
+    str_detect(country, 'Russia') ~ 'RUS',
+    str_detect(country, 'South Korea') ~ 'KOR',
+    str_detect(country, 'Turkey') ~ 'TUR',
+    .default = iso3c
+  )) 
+
+# clean up
+rm(aerosol_countries)
+
+#-------------------------------------------------------------------------------
+# Load returns to education data 
+#-------------------------------------------------------------------------------
+returns_to_educ <- read_excel('data-raw/Comparable Returns to Education Database.xlsx',
+                              sheet = 3)
+
+#-------------------------------------------------------------------------------
+# Merge iso3c
+#-------------------------------------------------------------------------------
+
+educ_countries <- sort(unique(returns_to_educ$Economy))
+cbind(educ_countries[!(educ_countries %in% iso_lookup$country)])
+
+returns_to_educ <- returns_to_educ |> 
+  rename(country = Economy) |> 
+  left_join(iso_lookup) |> 
+  mutate(iso3c = case_when(
+    str_detect(country, "Bosnia & Herzegovina") ~ 'BIH',
+    str_detect(country, "Côte d'Ivoire") ~ 'CIV',
+    str_detect(country, "Czech Republic") ~ 'CZE',     
+    str_detect(country, "Macedonia, FYR") ~ 'MKD',     
+    str_detect(country, "São Tomé and Principe") ~ 'STP',
+    str_detect(country, "Swaziland") ~ NA,            
+    str_detect(country, "Turkey") ~ 'TUR',  
+    str_detect(country, "West Bank and Gaza") ~ NA,
+    .default = iso3c
+  )) |> 
+  relocate(iso3c)
+  
+# clean up
+rm(educ_countries, iso_lookup)
