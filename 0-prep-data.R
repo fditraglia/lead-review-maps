@@ -137,7 +137,8 @@ bllGBD <- country_names |>
   left_join(total5plus) |> 
   left_join(total10plus) |> 
   mutate(frac5plus = total5plus / popn0019,
-         frac10plus = total10plus / popn0019) 
+         frac10plus = total10plus / popn0019) |> 
+  filter(!is.na(iso3c))
 
 # Clean up
 rm(bll, bll10plus, bll5plus, country_names, popn, total10plus, total5plus)
@@ -207,3 +208,4 @@ returns_to_educ <- returns_to_educ |>
   
 # clean up
 rm(educ_countries, iso_lookup)
+
