@@ -1,3 +1,4 @@
+library(GGally)
 #-------------------------------------------------------------------------------
 # IQ points lost as a function of BLL (Lanphear, 2005)
 #-------------------------------------------------------------------------------
@@ -23,9 +24,8 @@ iq_loss <- function(bll) {
 # (2) Ditto with a Beta distribution supported on [0, 100]
 #
 # (3) A three point discrete distribution. Put P(X > 10) probability on 10 and
-#     P(X > 5) - P(X > 10) on 5. Put the remaining probability on a single 
-#     support point chosen to match the mean. Alternatively, ignore any costs
-#     from BLLs below 5 to get a *lower* bound.
+#     P(X > 5) - P(X > 10) on 5. Ignore any costs from BLLs below 5 to get a 
+#     *lower* bound 
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
@@ -101,7 +101,6 @@ pbeta(c(5, 10) / 100, 1.81, 18.32, lower.tail = FALSE)
 
 # Seems like lognormal has trouble approximating dist for places with
 # lower means / shares 5+.
-# We should compare against "ground truth" for IL.
 
 # these values are approximately those of China
 get_lnorm_params(3.39, 0.0929, 0.000122)
@@ -194,10 +193,18 @@ bllGBD <- bllGBD |>
   pmap_dfr(get_beta_params) |> 
   bind_cols(bllGBD) |> 
   relocate(shape1, shape2, .after = frac10plus)
-# Find a way to make the preceding pipeline a bit more elegant.
 
 #-------------------------------------------------------------------------------
-# Compute integrated IQ loss for all countries
+# Compute lognormal parameters for all countries
+#-------------------------------------------------------------------------------
+bllGBD <- bllGBD |> 
+  select(avgbll, frac5plus, frac10plus) |> 
+  pmap_dfr(get_lnorm_params) |> 
+  bind_cols(bllGBD) |> 
+  relocate(meanlog, sdlog, .after = shape2)
+
+#-------------------------------------------------------------------------------
+# Compute integrated IQ loss for all countries: Beta version
 #-------------------------------------------------------------------------------
 get_beta_IQ_integral <- function(shape1, shape2) {
   # Beta density on [0, 100]
@@ -209,5 +216,39 @@ get_beta_IQ_integral <- function(shape1, shape2) {
 bllGBD <- bllGBD |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
 
+#-------------------------------------------------------------------------------
+# Compute integrated IQ loss for all countries: Lognormal version
+#-------------------------------------------------------------------------------
+get_lnorm_IQ_integral <- function(meanlog, sdlog) {
+  # Beta density on [0, 100]
+  f <- \(x) dlnorm(x, meanlog, sdlog) 
+  integral <- integrate(\(x) f(x) * iq_loss(x), 0, Inf)
+  return(integral$value)
+}
+
+bllGBD <- bllGBD |> 
+  mutate(lnorm_IQ_integral = map2_dbl(meanlog, sdlog, get_lnorm_IQ_integral))
+
+
+#-------------------------------------------------------------------------------
+# Compute lower bound on IQ loss: assign BLL of 10 to everyone above 10, 5 to
+# everyone between 5 and 10, and zero to everyone else.
+#-------------------------------------------------------------------------------
+bllGBD <- bllGBD |>  
+  mutate(LB_IQ_integral = (frac5plus - frac10plus) * iq_loss(5) + 
+           frac10plus * iq_loss(10))
+
+
 # clean up
-rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, iq_loss)
+rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, iq_loss,
+   get_lnorm_IQ_integral)
+
+
+
+#-------------------------------------------------------------------------------
+# How closely correlated are the three different approaches to approximating
+# IQ costs?
+#-------------------------------------------------------------------------------
+bllGBD |> 
+  select(ends_with('IQ_integral')) |> 
+  ggpairs()
