@@ -9,12 +9,12 @@ theme_set(theme_bw())
 world <- ne_countries(scale = "medium", 
                       returnclass = "sf", 
                       continent = c('North America', 'Africa', 'Europe', 
-                                    'Asia', 'South America'))
+                                    'Asia', 'South America', 'Oceania'))
 
 # A very simple test map: it seems like we can match on iso3
-ggplot(data = world) +
-  geom_sf(aes(fill = pop_est)) +
-  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+#ggplot(data = world) +
+#  geom_sf(aes(fill = pop_est)) +
+#  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
 
 # Presumably these plots are all going to look really similar. We may want to 
 # rethink how we use our remaining figures. Alternatively, we may want do make

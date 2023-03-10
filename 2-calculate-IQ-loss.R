@@ -208,3 +208,6 @@ get_beta_IQ_integral <- function(shape1, shape2) {
 
 bllGBD <- bllGBD |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
+
+# clean up
+rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, iq_loss)
