@@ -16,7 +16,7 @@ bllGBD <- returns_to_educ |>
   mutate(after1990 = Year > 1990) |> 
   group_by(iso3c) |> 
   summarize(n_after_1990 = sum(after1990),
-            avgreturns = ifelse(n_after_1990 > 1,
+            avgreturns_to_educ = ifelse(n_after_1990 > 1,
                                 (after1990 * returns) / n_after_1990,
                                 returns[1])) |> 
   select(-n_after_1990) |> 
@@ -49,3 +49,14 @@ bllGBD <- WBgdpc |>
 # clean up
 rm(returns_to_educ, WBgdpc)
 
+# Compute our estimate of the returns to eliminating lead
+# From Stein et al (2023) an increase of 15 IQ points is associated with an
+# increase of 0.53 years of schooling, on average, across Brazil, Guatemala, 
+# the Phillipines, and South Africa.
+bllGBD <- bllGBD |> 
+  mutate(pc_returns_no_lead = (beta_IQ_integral / 15) * 0.53 * 
+           avgreturns_to_educ * gdpc)
+
+bllGBD |> 
+  filter(!is.na(pc_returns_no_lead)) |> 
+  summarize(sum(pc_returns_no_lead * popn0019))
