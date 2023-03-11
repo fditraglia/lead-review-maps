@@ -11,20 +11,67 @@ world <- ne_countries(scale = "medium",
                       continent = c('North America', 'Africa', 'Europe', 
                                     'Asia', 'South America', 'Oceania'))
 
-# A very simple test map: it seems like we can match on iso3
-#ggplot(data = world) +
-#  geom_sf(aes(fill = pop_est)) +
-#  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
-
 # Presumably these plots are all going to look really similar. We may want to 
 # rethink how we use our remaining figures. Alternatively, we may want do make
 # the plots by continent?
 
-# gu_a3 appears to be geounit iso
+# gu_a3 is geounit iso. Use this to merge bllGBD
+world <- world |> 
+  left_join(rename(bllGBD, gu_a3 = iso3c))
+
+# Fraction with BLL > 5 micrograms / deciliter
 world |> 
-  left_join(select(bllGBD, gu_a3 = iso3c, frac5plus)) |> 
-  relocate(frac5plus) |> 
   ggplot() + 
   geom_sf(aes(fill = frac5plus)) +
   scale_fill_viridis_c(option = "plasma", trans = "sqrt")
 
+# Fraction with BLL > 10 micrograms / deciliter
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = frac10plus)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# Average IQ lost per individual aged 0-19: beta approximation
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = beta_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# $ value of IQ lost per individual aged 0-19: beta approximation
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = beta_returns_no_lead)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# Average IQ lost per individual aged 0-19: lognormal approximation
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = lnorm_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# $ value of IQ lost per individual aged 0-19: lognormal approximation
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = lnorm_returns_no_lead)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# Average IQ lost per individual aged 0-19: lower bound 
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = LB_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# $ value of IQ lost per individual aged 0-19: lower bound 
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = LB_returns_no_lead)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+
+# $ value of IQ lost per individual aged 0-19: lower bound but with $1000 per
+# IQ point lost per year rather than a figure based on returns to education, 
+# which are missing in many countries where lead is a prevalent
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = LB_IQ_integral * 1000)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")

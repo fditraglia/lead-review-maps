@@ -240,8 +240,7 @@ bllGBD <- bllGBD |>
 
 
 # clean up
-rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, iq_loss,
-   get_lnorm_IQ_integral)
+rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, get_lnorm_IQ_integral)
 
 
 
