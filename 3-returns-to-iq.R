@@ -22,15 +22,18 @@ bllGBD |>
 # The lower bound approach is about half as big: 2.5 trillion. 
 # No matter how you look at it, these are big numbers. Take the lower bound and
 # divide it by 2 on the premise that part of the estimated relationship between
-# lead and IQ is endognous family background: you still get more than 1 trillion
+# lead and IQ is endogenous family background: you still get more than 1 trillion
 # per year.
 
 #------------------------------------------------------------------------------
 # Estimate the $ benefit from eliminating lead: Version 2
 #
-# This approach uses the returns to education, GDP per capita, and an estimated 
-# relationship between IQ and years of education to replace the $20,000 figure 
-# from Version 1. 
+# This approach combines estimated returns to education across a large number
+# of countries with GDP per capita at PPP. The idea is that GDP / capita at PPP
+# is an approximation of income / capita. Multiplying this value by estimated
+# returns to one additional year of education gives a result in $/year per
+# additional year of education. To convert this to $/year per IQ point, we need
+# the relationship between IQ points and years of education. 
 #------------------------------------------------------------------------------
 
 # Which and how many years of returns are available in each country?
@@ -59,6 +62,7 @@ bllGBD <- returns_to_educ |>
 # Download gdp per capita at PPP in current international $ 
 WBgdpc <- wb_data('NY.GDP.PCAP.PP.CD') |> 
   rename(gdpc = NY.GDP.PCAP.PP.CD)
+
 
 # For some countries gdpc is only available in selected years.
 WBgdpc |> 
@@ -89,10 +93,34 @@ rm(returns_to_educ, WBgdpc)
 # From Stein et al (2023) an increase of 15 IQ points is associated with an
 # increase of 0.53 years of schooling, on average, across Brazil, Guatemala, 
 # the Phillipines, and South Africa.
+IQ_to_yrschool <- 0.53 / 15
 bllGBD <- bllGBD |> 
-  mutate(pc_returns_no_lead = (beta_IQ_integral / 15) * 0.53 * 
-           avgreturns_to_educ * gdpc)
+  mutate(dollar_per_yrschool = avgreturns_to_educ * gdpc,
+         beta_returns_no_lead = beta_IQ_integral * IQ_to_yrschool * dollar_per_yrschool,
+         lnorm_returns_no_lead = lnorm_IQ_integral * IQ_to_yrschool * dollar_per_yrschool,
+         LB_returns_no_lead = LB_IQ_integral * IQ_to_yrschool * dollar_per_yrschool) 
 
 bllGBD |> 
-  filter(!is.na(pc_returns_no_lead)) |> 
-  summarize(sum(pc_returns_no_lead * popn0019))
+  filter(!is.na(beta_returns_no_lead)) |> 
+  summarize(lower_bound = sum(LB_returns_no_lead * popn0019), 
+            beta_approx = sum(beta_returns_no_lead * popn0019), 
+            lnorm_approx = sum(lnorm_returns_no_lead * popn0019))
+
+# These figures are broadly in line with what we found above: now we have 1.6
+# trillion for the lower bound, 8 for the beta approximation and 4.5 for the 
+# lognormal approximation.
+
+# Sanity check: histogram of the implied dollars per IQ point per year
+bllGBD |> 
+  ggplot(aes(x = IQ_to_yrschool * dollar_per_yrschool)) +
+  geom_histogram() +
+  scale_x_log10() +
+  xlab('Implied Dollars per IQ Point Per Year Across Countries')
+
+# Notice that the median is right around $1000 / year, which is almost exactly
+# what we obtained above by discounting the 20,000 lifetime figure.
+
+#------------------------------------------------------------------------------
+# The counterfactuals given above assume that we take everyone down to a BLL of
+# zero. What if we instead brought everyone down to 5? 
+#------------------------------------------------------------------------------
