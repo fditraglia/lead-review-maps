@@ -46,7 +46,7 @@ bllGBD |>
 
 # These figures are much easier to think about: 974 for the lower bound, 2221 
 # for the beta and 1947 for the lognormal. Compare to world GDP / capita of 
-# around 12,234.
+# around 12,234. 
 
 #------------------------------------------------------------------------------
 # Estimate the $ benefit from eliminating lead: Version 2
