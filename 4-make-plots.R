@@ -68,9 +68,23 @@ world |>
   scale_fill_viridis_c(option = "plasma", trans = "sqrt")
 
 
-# $ value of IQ lost per individual aged 0-19: lower bound but with $1000 per
-# IQ point lost per year rather than a figure based on returns to education, 
-# which are missing in many countries where lead is a prevalent
+# $ value of IQ lost per individual aged 0-19: $1000 per lost IQ point rather 
+# than a figure based on returns to education, because these are missing in
+# many countries where lead is a big problem
+
+# Beta 
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = beta_IQ_integral * 1000)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# Lognormal 
+world |> 
+  ggplot() + 
+  geom_sf(aes(fill = lnorm_IQ_integral * 1000)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+
+# Lower bound
 world |> 
   ggplot() + 
   geom_sf(aes(fill = LB_IQ_integral * 1000)) +
