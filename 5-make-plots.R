@@ -74,3 +74,4 @@ bllWorld |>
   geom_sf(aes(fill = LB_IQ_integral * 1000)) +
   scale_fill_viridis_c(option = "plasma", trans = "sqrt")
 
+rm(bllWorld)

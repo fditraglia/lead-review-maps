@@ -244,10 +244,3 @@ rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, get_lnorm_IQ_integra
 
 
 
-#-------------------------------------------------------------------------------
-# How closely correlated are the three different approaches to approximating
-# IQ costs?
-#-------------------------------------------------------------------------------
-bllGBD |> 
-  select(ends_with('IQ_integral')) |> 
-  ggpairs()
