@@ -1,3 +1,5 @@
+library(sf)
+library(tidyverse)
 load('data/bllWorld.RData')
 
 # Set ggplot theme
