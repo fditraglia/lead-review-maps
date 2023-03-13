@@ -54,7 +54,10 @@ total10plus <- bll10plus |>
 #
 # Summing these three gives total population aged 0-19.
 #-------------------------------------------------------------------------------
-popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA')) |>  
+popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA'),
+                start_date = 2019, end_date = 2019) 
+
+popn <- popn |>  
   filter(date == 2019) |> 
   mutate(popn0019 = SP.POP.0014.TO + SP.POP.1519.FE + SP.POP.1519.MA) |> 
   select(-starts_with('SP.POP'), -iso2c, -date)

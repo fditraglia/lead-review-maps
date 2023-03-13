@@ -11,18 +11,18 @@ returns_to_educ |>
 # (There is no country with more than one observation but all before 1990)
 bllGBD <- returns_to_educ |> 
   rename(returns = `β1`) |> 
-  mutate(after1990 = Year > 1990) |> 
+  select(iso3c, Year, returns) |> 
   group_by(iso3c) |> 
-  summarize(n_after_1990 = sum(after1990),
-            avgreturns_to_educ = ifelse(n_after_1990 > 1,
-                                (after1990 * returns) / n_after_1990,
-                                returns[1])) |> 
-  select(-n_after_1990) |> 
+  summarize(avgreturns_to_educ = ifelse(n() > 1, 
+                                        mean(returns[Year > 1990]),
+                                        mean(returns))) |> 
   ungroup() |> 
   right_join(bllGBD)
 
 # Download gdp per capita at PPP in current international $ 
-WBgdpc <- wb_data('NY.GDP.PCAP.PP.CD') |> 
+WBgdpc <- wb_data('NY.GDP.PCAP.PP.CD', 
+                  start_date = 2010,
+                  end_date = 2019) |> 
   rename(gdpc = NY.GDP.PCAP.PP.CD)
 
 
