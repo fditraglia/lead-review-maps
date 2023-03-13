@@ -48,19 +48,44 @@ bllGBD <- WBgdpc |>
 # clean up
 rm(returns_to_educ, WBgdpc)
 
+#-------------------------------------------------------------------------------
+# Approximate $ / IQ point in terms of foregone earnings.
+#
+# In our IL paper we monetized the loss of one IQ point for a 3-year old as 
+# as 20,568 in 2019 dollars, following Klemick, Mason, and Sullivan (2020). This
+# is meant to represent the lifetime present value of earnings losses from lower
+# cognitive skills. 
+# 
+# This figure shouldn't be applied to countries with different returns to
+# cognitive skills. A back-of-the-envelope approach to generating comparable
+# figures for other countries is as follows. 
+#
+# Treat the returns to one additional year of education as the returns to
+# cognitive skills. (Note that "ability bias" actually helps us here since we
+# are interested in the returns to ability.) Returns to education are expressed
+# as a percentage increase in wage per additional year of education. But wages
+# also vary across countries. As a rough approximation, use relative GDP per 
+# capita to correct for this.
+#
+# To convert the $20,568 figure for use in country X, calculate as follows:
+#
+# ($ per IQ point) = 20568 * (returns(X) / returns(US)) * (GDPc(X) / GDPc(US))
+# 
+# For some countries this will produce a missing value because we don't have 
+# returns to education for all the countries for which we have GBD lead data.
+#-------------------------------------------------------------------------------
 
-# Compute our estimate of the returns to eliminating lead
-# From Stein et al (2023) an increase of 15 IQ points is associated with an
-# increase of 0.53 years of schooling, on average, across Brazil, Guatemala, 
-# the Phillipines, and South Africa.
-IQ_to_yrschool <- 0.53 / 15
+US_gdpc <- bllGBD |> 
+  filter(iso3c == 'USA') |> 
+  pull(gdpc)
+
+US_returns <- bllGBD |> 
+  filter(iso3c == 'USA') |> 
+  pull(avgreturns_to_educ)
+
 bllGBD <- bllGBD |> 
-  mutate(dollar_per_yrschool = avgreturns_to_educ * gdpc,
-         dollar_per_IQ = IQ_to_yrschool * dollar_per_yrschool,
-         beta_returns_no_lead = beta_IQ_integral * dollar_per_IQ, 
-         lnorm_returns_no_lead = lnorm_IQ_integral * dollar_per_IQ, 
-         LB_returns_no_lead = LB_IQ_integral * dollar_per_IQ)
+  mutate(dollars_per_IQ = 20568 * avgreturns_to_educ * gdpc / 
+           (US_gdpc * US_returns)) 
 
 
-# Clean up
-rm(IQ_to_yrschool, iq_loss)
+rm(iq_loss, US_gdpc, US_returns)
