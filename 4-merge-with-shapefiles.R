@@ -18,7 +18,7 @@ bllWorld <- world |>
   left_join(rename(bllGBD, gu_a3 = iso3c))
 
 save(bllWorld, file = './data/bllWorld.RData')
-save(aerosol, file = './data/aerosol.RData')
+save(aerosol, world, file = './data/aerosol.RData')
 save(bllGBD, file = './data/bllGBD.RData')
 
 
