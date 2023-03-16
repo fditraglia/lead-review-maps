@@ -150,7 +150,7 @@ rm(bll, bll10plus, bll5plus, country_names, popn, total10plus, total5plus)
 #-------------------------------------------------------------------------------
 # Load aerosol data 
 #-------------------------------------------------------------------------------
-aerosol <- read_excel('data-raw/20221110 global aerosol pb.xlsx', sheet = 1)
+aerosol <- read_excel('data-raw/20221110 global aerosol pb updated.xlsx', sheet = 1)
 
 #-------------------------------------------------------------------------------
 # Merge iso3c codes with aerosol
