@@ -19,4 +19,10 @@ ggplot(data = world) +
     geom_point( data=aerosol_filter, 
                 aes(x=Longitude, y=Latitude, size=`number of samples`, color=`Pb (ng ⋅ m−3)`), alpha=0.3) +
   scale_size_continuous(name="N Samples", range=c(1,12)) +
-  scale_color_viridis(name="Log Pb (ng ⋅ m−3)", trans="log") 
+  scale_color_viridis(name="Log Pb (ng ⋅ m−3)", trans="log" ) +
+  theme(legend.justification = c(0,0.8)) +
+  theme(legend.key.height = unit(0.3, 'cm'))
+
+ggsave('output/aerosol.png', width = 7, height = 5)
+
+rm(aerosol)

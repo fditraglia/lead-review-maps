@@ -1,3 +1,5 @@
+library(countrycode) #to assign continent
+
 # Which and how many years of returns are available in each country?
 returns_to_educ |> 
   select(country, Year) |> 
@@ -17,7 +19,10 @@ bllGBD <- returns_to_educ |>
                                         mean(returns[Year > 1990]),
                                         mean(returns))) |> 
   ungroup() |> 
-  right_join(bllGBD)
+  right_join(bllGBD) |>
+  mutate(continent= countrycode(iso3c, origin = "iso3c", destination = "continent")) |>
+  group_by(continent) |> 
+  mutate(avgreturns_to_educ = replace_na(avgreturns_to_educ, mean(avgreturns_to_educ, na.rm=TRUE))) 
 
 # Download gdp per capita at PPP in current international $ 
 WBgdpc <- wb_data('NY.GDP.PCAP.PP.CD', 
@@ -43,16 +48,16 @@ bllGBD <- WBgdpc |>
                           gdpc[date == 2019],
                           gdpc[date == maxyear])) |> 
   ungroup() |> 
-  right_join(bllGBD)
+  right_join(bllGBD) |>
+  select(- continent)
 
 # clean up
 rm(returns_to_educ, WBgdpc)
 
-
 # Compute our estimate of the returns to eliminating lead
 # From Stein et al (2023) an increase of 15 IQ points is associated with an
 # increase of 0.53 years of schooling, on average, across Brazil, Guatemala, 
-# the Phillipines, and South Africa.
+# the Philippines, and South Africa.
 IQ_to_yrschool <- 0.53 / 15
 bllGBD <- bllGBD |> 
   mutate(dollar_per_yrschool = avgreturns_to_educ * gdpc,
@@ -61,6 +66,13 @@ bllGBD <- bllGBD |>
          lnorm_returns_no_lead = lnorm_IQ_integral * dollar_per_IQ, 
          LB_returns_no_lead = LB_IQ_integral * dollar_per_IQ)
 
+#compute average and sum of returns using beta
+bllGBD |>
+  mutate(tot_country=beta_returns_no_lead*popn0019,
+         tot_population=sum(popn0019, na.rm=TRUE),
+         tot_global_damages=sum(tot_country, na.rm=TRUE),
+         avg_percapita_global_damages=tot_global_damages/tot_population) |>
+  print(n=2)
 
 # Clean up
 rm(IQ_to_yrschool, iq_loss)

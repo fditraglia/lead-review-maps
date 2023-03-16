@@ -9,24 +9,28 @@ theme_set(theme_bw())
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = frac5plus)) +
-  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+  scale_fill_viridis_c(name="Share >5", option = "plasma", trans = "sqrt")
+ggsave('output/frac5plus.png', width = 7, height = 5)
 
 # Fraction with BLL > 10 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = frac10plus)) +
-  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
-
-# Average IQ lost per individual aged 0-19: beta approximation
-bllWorld |> 
-  ggplot() + 
-  geom_sf(aes(fill = beta_IQ_integral)) +
-  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+  scale_fill_viridis_c(name="Share >10",option = "plasma", trans = "sqrt")
+ggsave('output/frac10plus.png', width = 7, height = 5)
 
 # $ value of IQ lost per individual aged 0-19: beta approximation
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = beta_returns_no_lead)) +
+  scale_fill_viridis_c(name="Per Capita Loss $", option = "plasma", trans = "sqrt")
+ggsave('output/beta_returns_no_lead.png', width = 7, height = 5)
+
+
+# Average IQ lost per individual aged 0-19: beta approximation
+bllWorld |> 
+  ggplot() + 
+  geom_sf(aes(fill = beta_IQ_integral)) +
   scale_fill_viridis_c(option = "plasma", trans = "sqrt")
 
 # Average IQ lost per individual aged 0-19: lognormal approximation
