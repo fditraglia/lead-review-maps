@@ -10,14 +10,14 @@ bllWorld |>
   ggplot() + 
   geom_sf(aes(fill = frac5plus)) +
   scale_fill_viridis_c(name="Share >5", option = "plasma", trans = "sqrt") 
-ggsave('output/frac5plus.png', width = 7, height = 5)
+ggsave('output/frac5plus.pdf', width = 7, height = 5)
 
 # Fraction with BLL > 10 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = frac10plus)) +
   scale_fill_viridis_c(name="Share >10",option = "plasma", trans = "sqrt")
-ggsave('output/frac10plus.png', width = 7, height = 5)
+ggsave('output/frac10plus.pdf', width = 7, height = 5)
 
 # $ value of IQ lost per individual aged 0-19: beta approximation
 #bllWorld |> 
@@ -54,6 +54,10 @@ bllWorld |>
   geom_sf(aes(fill = dollars_per_IQ * beta_IQ_integral)) +
   scale_fill_viridis_c(option = "plasma", name = '$US', trans = 'sqrt') +
   labs(title = 'Dollar value of IQ loss')
+ggsave('output/IQcost.pdf', width = 7, height = 5)
+
+rm(bllWorld)
+load('./data/bllGBD.RData')
 
 # Compute dollar value of IQ loss: per person, lifetime discounted 
 bllGBD |> 
@@ -70,4 +74,4 @@ bllGBD |>
             lnorm_approx = sum(dollars_per_IQ * popn0019 * lnorm_IQ_integral))
 
 
-rm(bllWorld)
+rm(bllGBD)
