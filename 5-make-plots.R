@@ -56,22 +56,12 @@ bllWorld |>
   labs(title = 'Dollar value of IQ loss')
 ggsave('output/IQcost.pdf', width = 7, height = 5)
 
-rm(bllWorld)
 load('./data/bllGBD.RData')
 
 # Compute dollar value of IQ loss: per person, lifetime discounted 
-bllGBD |> 
-  filter(!is.na(dollars_per_IQ)) |>  
-  summarize(lower_bound = sum(dollars_per_IQ * popn0019 * LB_IQ_integral) / sum(popn0019),
-            beta_approx = sum(dollars_per_IQ * popn0019 * beta_IQ_integral) / sum(popn0019),
-            lnorm_approx = sum(dollars_per_IQ * popn0019 * lnorm_IQ_integral) / sum(popn0019))
-
-# Total rather than per person
-bllGBD |> 
-  filter(!is.na(dollars_per_IQ)) |>  
-  summarize(lower_bound = sum(dollars_per_IQ * popn0019 * LB_IQ_integral),
-            beta_approx = sum(dollars_per_IQ * popn0019 * beta_IQ_integral),
-            lnorm_approx = sum(dollars_per_IQ * popn0019 * lnorm_IQ_integral))
-
-
-rm(bllGBD)
+bllWorld |> 
+  st_drop_geometry() |> 
+  select(dollars_per_IQ, popn0019, beta_IQ_integral) |> 
+  filter(!is.na(popn0019), !is.na(dollars_per_IQ)) |> 
+  summarize(per_person = sum(dollars_per_IQ * popn0019 * beta_IQ_integral) / sum(popn0019),
+            total = sum(dollars_per_IQ * popn0019 * beta_IQ_integral))
