@@ -66,4 +66,5 @@ ggplot(data = world) +
   scale_size_continuous(name="N Samples", range=c(1,12)) +
   scale_color_viridis(name="Log Pb (ng ⋅ m−3)", trans="log") +
   theme(legend.key.size = unit(0.3, 'cm'), legend.justification=c(0.8,0.7)) 
+ggsave('output/aerosol.pdf', width = 7, height = 5)
 
