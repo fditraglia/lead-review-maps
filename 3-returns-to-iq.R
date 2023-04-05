@@ -74,8 +74,46 @@ rm(returns_to_educ, WBgdpc)
 # For some countries this will produce a missing value because we don't have 
 # returns to education for all the countries for which we have GBD lead data.
 #-------------------------------------------------------------------------------
+# An alternative version of this calculation is as follows. Assume a 40 year
+# working lifetime and a 3-4%/year discount rate. Under these assumptions the
+# $20,568 lifetime discounted figure becomes $864/year. In particular:
+#
+# T = working lifetime (years)
+# r = discount rate (decimal)
+# f = discount factor = 1 / (1 + r)
+# (Present value of lifetime earnings) = (Annual flow) * (1 - f^T) / (1 - f)
+# 
+# Rearranging: (Annual flow) = (PV of lifetime earnings) * (1 - f) / (1 - f^T)
+#
+# The $864/year figure is computed in 2019 US dollars, *not* at purchasing power
+# parity and *not* international dollars. So we need to pull 2019 US GDPc in 
+# *current* US dollars for this computation. We pull this from the World Bank
+# below.
+# 
+# Now, we can divide the $864/year figure by US GDPc in 2019 to give a pure 
+# number (unitless). (Stocks versus flows!) This ratio is roughly the economic 
+# cost of one less IQ point per child *relative* to US earnings.
+#
+# This ratio may not apply to other countries. We adjust it for comparability
+# using relative returns to education in country X relative to the US. Our 
+# reasoning is that the original $20,568 figure was computed from a Mincer 
+# regression that associates IQ to schooling and schooling to earnings so it
+# makes sense to adjust for differences in returns to schooling.
+#
+# [(Annual Flow in $/year) / (US GDPc in $/year)] * [returns(X) / returns(US)]
+#
+#-------------------------------------------------------------------------------
+get_flow <- function(discount_rate, working_lifetime) {
+  f <- 1 / (1 + discount_rate)
+  20568 * (1 - f) / (1 - f^working_lifetime)
+}
 
-US_gdpc <- bllGBD |> 
+US_gdpc_2019_ppp <- bllGBD |> 
+  filter(iso3c == 'USA') |> 
+  pull(gdpc)
+
+US_gdpc_2019 <- wb_data('NY.GDP.PCAP.CD', start_date = 2019, end_date = 2019) |> 
+  rename(gdpc = NY.GDP.PCAP.CD) |> 
   filter(iso3c == 'USA') |> 
   pull(gdpc)
 
@@ -85,7 +123,8 @@ US_returns <- bllGBD |>
 
 bllGBD <- bllGBD |> 
   mutate(dollars_per_IQ = 20568 * avgreturns_to_educ * gdpc / 
-           (US_gdpc * US_returns)) 
+           (US_gdpc_2019_ppp * US_returns),
+         relative_iq_cost = get_flow(0.03, 40) * avgreturns_to_educ /
+           (US_gdpc_2019 * US_returns)) 
 
-
-rm(iq_loss, US_gdpc, US_returns)
+rm(iq_loss, US_gdpc_2019_ppp, US_gdpc_2019, US_returns)

@@ -11,7 +11,7 @@ bllWorld |>
   geom_sf(aes(fill = frac5plus)) +
   scale_fill_viridis_c(name="Share >5", option = "plasma", trans = "sqrt") 
 ggsave('output/frac5plus.png', width = 7, height = 5)
-ggsave('output/frac5plus.pdf', width = 7, height = 5)
+#ggsave('output/frac5plus.pdf', width = 7, height = 5)
 
 # Fraction with BLL > 10 micrograms / deciliter
 bllWorld |> 
@@ -19,7 +19,7 @@ bllWorld |>
   geom_sf(aes(fill = frac10plus)) +
   scale_fill_viridis_c(name="Share >10",option = "plasma", trans = "sqrt")
 ggsave('output/frac10plus.png', width = 7, height = 5)
-ggsave('output/frac10plus.pdf', width = 7, height = 5)
+#ggsave('output/frac10plus.pdf', width = 7, height = 5)
 
 # $ value of IQ lost per individual aged 0-19: beta approximation
 #bllWorld |> 
@@ -34,29 +34,41 @@ bllWorld |>
   filter(gu_a3 == 'GRL') |> 
   select(gu_a3, continent)
 
-# Replace the missing values with the geometric mean of the continent average
-gm_mean <- function(x, na.rm=TRUE){
-  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+# Function to compute geometric mean
+gm_mean <- function(x, na.rm = TRUE){
+  exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
 }
 
+# dollars_per_IQ is highly skewed so use geometric mean to impute missing values
+# relative_iq_cost is highly symmetric so use arithmetic mean
 bllWorld <- bllWorld |> 
   group_by(continent) |> 
-  mutate(dollars_per_IQ_continent = gm_mean(dollars_per_IQ)) |> 
+  mutate(dollars_per_IQ_continent = gm_mean(dollars_per_IQ),
+         relative_iq_cost_continent = mean(relative_iq_cost, na.rm = TRUE)) |> 
   ungroup() |> 
   mutate(dollars_per_IQ = if_else(!is.na(dollars_per_IQ),
                                   dollars_per_IQ, 
-                                  dollars_per_IQ_continent)) |> 
+                                  dollars_per_IQ_continent),
+         relative_iq_cost = if_else(!is.na(relative_iq_cost),
+                                    relative_iq_cost,
+                                    relative_iq_cost_continent)) |> 
   # It doesn't make sense to compute this average for Greenland since
   # its continent is North America
-  mutate(dollars_per_IQ = if_else(gu_a3 == 'GRL', NA, 
-                                  dollars_per_IQ)) 
+  mutate(dollars_per_IQ = if_else(gu_a3 == 'GRL', NA, dollars_per_IQ),
+         relative_iq_cost = if_else(gu_a3 == 'GRL', NA, relative_iq_cost)) 
 
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = dollars_per_IQ * beta_IQ_integral)) +
   scale_fill_viridis_c(option = "plasma", name = 'IQ loss ($)', trans = 'sqrt')
 ggsave('output/IQcost.png', width = 7, height = 5)
-ggsave('output/IQcost.pdf', width = 7, height = 5)
+#ggsave('output/IQcost.pdf', width = 7, height = 5)
+
+bllWorld |> 
+  ggplot() + 
+  geom_sf(aes(fill = relative_iq_cost * beta_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", name = '?', trans = 'sqrt')
+
 
 load('./data/bllGBD.RData')
 

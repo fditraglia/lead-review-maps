@@ -191,8 +191,8 @@ rm(beta_trunc, lnorm_trunc, IL_survival, IL_survival_vec, bll_seq, IL_beta,
 bllGBD <- bllGBD |> 
   select(avgbll, frac5plus, frac10plus) |> 
   pmap_dfr(get_beta_params) |> 
-  bind_cols(bllGBD) |> 
-  relocate(shape1, shape2, .after = frac10plus)
+  bind_cols(bllGBD) 
+#relocate(shape1, shape2, .after = frac10plus)
 
 #-------------------------------------------------------------------------------
 # Compute lognormal parameters for all countries
