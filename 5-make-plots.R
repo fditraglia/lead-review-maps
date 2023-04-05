@@ -8,18 +8,16 @@ theme_set(theme_bw())
 # Fraction with BLL > 5 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
-  geom_sf(aes(fill = frac5plus)) +
-  scale_fill_viridis_c(name="Share >5", option = "plasma", trans = "sqrt") 
-ggsave('output/frac5plus.png', width = 7, height = 5)
-#ggsave('output/frac5plus.pdf', width = 7, height = 5)
+  geom_sf(aes(fill = 100 * frac5plus)) +
+  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") 
+ggsave('output/frac5plus.pdf', width = 7, height = 5)
 
 # Fraction with BLL > 10 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
-  geom_sf(aes(fill = frac10plus)) +
-  scale_fill_viridis_c(name="Share >10",option = "plasma", trans = "sqrt")
-ggsave('output/frac10plus.png', width = 7, height = 5)
-#ggsave('output/frac10plus.pdf', width = 7, height = 5)
+  geom_sf(aes(fill = 100 * frac10plus)) +
+  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") 
+ggsave('output/frac10plus.pdf', width = 7, height = 5)
 
 # $ value of IQ lost per individual aged 0-19: beta approximation
 #bllWorld |> 
@@ -60,22 +58,23 @@ bllWorld <- bllWorld |>
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = dollars_per_IQ * beta_IQ_integral)) +
-  scale_fill_viridis_c(option = "plasma", name = 'IQ loss ($)', trans = 'sqrt')
-ggsave('output/IQcost.png', width = 7, height = 5)
-#ggsave('output/IQcost.pdf', width = 7, height = 5)
+  scale_fill_viridis_c(option = "plasma", name = '$', trans = 'sqrt')
+ggsave('output/IQcost.pdf', width = 7, height = 5)
 
 bllWorld |> 
   ggplot() + 
-  geom_sf(aes(fill = relative_iq_cost * beta_IQ_integral)) +
-  scale_fill_viridis_c(option = "plasma", name = '?', trans = 'sqrt')
+  geom_sf(aes(fill = 100 * relative_iq_cost * beta_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt')
+ggsave('output/relative_iq_cost.pdf', width = 7, height = 5)
 
 
-load('./data/bllGBD.RData')
-
-# Compute dollar value of IQ loss: per person, lifetime discounted 
-bllWorld |> 
-  st_drop_geometry() |> 
-  select(dollars_per_IQ, popn0019, beta_IQ_integral) |> 
-  filter(!is.na(popn0019), !is.na(dollars_per_IQ)) |> 
-  summarize(per_person = sum(dollars_per_IQ * popn0019 * beta_IQ_integral) / sum(popn0019),
-            total = sum(dollars_per_IQ * popn0019 * beta_IQ_integral))
+#load('./data/bllGBD.RData')
+#
+## Compute dollar value of IQ loss: per person, lifetime discounted 
+#bllWorld |> 
+#  st_drop_geometry() |> 
+#  select(dollars_per_IQ, popn0019, beta_IQ_integral) |> 
+#  filter(!is.na(popn0019), !is.na(dollars_per_IQ)) |> 
+#  summarize(per_person = sum(dollars_per_IQ * popn0019 * beta_IQ_integral) / sum(popn0019),
+#            total = sum(dollars_per_IQ * popn0019 * beta_IQ_integral))
+#
