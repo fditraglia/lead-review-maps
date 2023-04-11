@@ -68,6 +68,20 @@ bllWorld |>
 ggsave('output/relative_iq_cost.pdf', width = 7, height = 5)
 
 
+# Compute summary statistics for the plots
+# Across countries for countries with GBD data.
+bllWorld |> 
+  mutate(percentage = 100 * relative_iq_cost * beta_IQ_integral) |> 
+  pull(percentage) |> 
+  quantile(na.rm = TRUE)
+
+# Try to calculate an aggregate figure for the world as a whole. 
+bllWorld |>  
+  mutate(dollars = popn0019 * gdpc * relative_iq_cost * beta_IQ_integral) |> 
+  pull(dollars) |> 
+  sum(na.rm = TRUE) # Approx 600 Billion
+
+
 #load('./data/bllGBD.RData')
 #
 ## Compute dollar value of IQ loss: per person, lifetime discounted 
