@@ -56,75 +56,30 @@ rm(returns_to_educ, WBgdpc)
 # is meant to represent the lifetime present value of earnings losses from lower
 # cognitive skills. 
 # 
-# This figure shouldn't be applied to countries with different returns to
-# cognitive skills. A back-of-the-envelope approach to generating comparable
-# figures for other countries is as follows. 
+# The Klemick et al (2020) figure derives from a 2019 EPA document:
 #
-# Treat the returns to one additional year of education as the returns to
-# cognitive skills. (Note that "ability bias" actually helps us here since we
-# are interested in the returns to ability.) Returns to education are expressed
-# as a percentage increase in wage per additional year of education. But wages
-# also vary across countries. As a rough approximation, use relative GDP per 
-# capita to correct for this.
+#   U.S. Environmental Protection Agency (EPA), 2019. 
+#   Economic analysis of the final rule to revise the TSCA 
+#   dust-lead hazard standards
 #
-# To convert the $20,568 figure for use in country X, calculate as follows:
+# This document calculates 1.871% lower lifetime earnings for males and 3.409% 
+# for females. The average figure is 2.6%. (See Table C-2.) 
 #
-# ($ per IQ point) = 20568 * (returns(X) / returns(US)) * (GDPc(X) / GDPc(US))
-# 
-# For some countries this will produce a missing value because we don't have 
-# returns to education for all the countries for which we have GBD lead data.
+# We use the 2.6% figure below. But it is estimated from US data, so shouldn't
+# be applied directly to countries with different returns to cognitive skills. 
+# A back-of-the-envelope approach to generating comparable figures for other 
+# countries is as follows:
+#
+#   2.6% * [returns(X) / returns(US)]
+#
+# where returns(X) is the returns to schooling in country X and returns(US) is
+# the returns to schooling in the US, calculated from Mincer regressions.
 #-------------------------------------------------------------------------------
-# An alternative version of this calculation is as follows. Assume a 40 year
-# working lifetime and a 3-4%/year discount rate. Under these assumptions the
-# $20,568 lifetime discounted figure becomes $864/year. In particular:
-#
-# T = working lifetime (years)
-# r = discount rate (decimal)
-# f = discount factor = 1 / (1 + r)
-# (Present value of lifetime earnings) = (Annual flow) * (1 - f^T) / (1 - f)
-# 
-# Rearranging: (Annual flow) = (PV of lifetime earnings) * (1 - f) / (1 - f^T)
-#
-# The $864/year figure is computed in 2019 US dollars, *not* at purchasing power
-# parity and *not* international dollars. So we need to pull 2019 US GDPc in 
-# *current* US dollars for this computation. We pull this from the World Bank
-# below.
-# 
-# Now, we can divide the $864/year figure by US GDPc in 2019 to give a pure 
-# number (unitless). (Stocks versus flows!) This ratio is roughly the economic 
-# cost of one less IQ point per child *relative* to US earnings.
-#
-# This ratio may not apply to other countries. We adjust it for comparability
-# using relative returns to education in country X relative to the US. Our 
-# reasoning is that the original $20,568 figure was computed from a Mincer 
-# regression that associates IQ to schooling and schooling to earnings so it
-# makes sense to adjust for differences in returns to schooling.
-#
-# [(Annual Flow in $/year) / (US GDPc in $/year)] * [returns(X) / returns(US)]
-#
-#-------------------------------------------------------------------------------
-get_flow <- function(discount_rate, working_lifetime) {
-  f <- 1 / (1 + discount_rate)
-  20568 * (1 - f) / (1 - f^working_lifetime)
-}
-
-US_gdpc_2019_ppp <- bllGBD |> 
-  filter(iso3c == 'USA') |> 
-  pull(gdpc)
-
-US_gdpc_2019 <- wb_data('NY.GDP.PCAP.CD', start_date = 2019, end_date = 2019) |> 
-  rename(gdpc = NY.GDP.PCAP.CD) |> 
-  filter(iso3c == 'USA') |> 
-  pull(gdpc)
-
 US_returns <- bllGBD |> 
   filter(iso3c == 'USA') |> 
   pull(avgreturns_to_educ)
 
 bllGBD <- bllGBD |> 
-  mutate(dollars_per_IQ = 20568 * avgreturns_to_educ * gdpc / 
-           (US_gdpc_2019_ppp * US_returns),
-         relative_iq_cost = get_flow(0.03, 40) * avgreturns_to_educ /
-           (US_gdpc_2019 * US_returns)) 
+  mutate(relative_iq_cost = 0.026 * avgreturns_to_educ / US_returns)
 
-rm(iq_loss, US_gdpc_2019_ppp, US_gdpc_2019, US_returns)
+rm(iq_loss, US_returns)

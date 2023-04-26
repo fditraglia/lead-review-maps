@@ -19,47 +19,22 @@ bllWorld |>
   scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") 
 ggsave('output/frac10plus.pdf', width = 7, height = 5)
 
-# $ value of IQ lost per individual aged 0-19: beta approximation
-#bllWorld |> 
-#  ggplot() + 
-#  geom_sf(aes(fill = beta_returns_no_lead)) +
-#  scale_fill_viridis_c(name="Per Capita Loss $", option = "plasma", trans = "sqrt")
-#ggsave('output/beta_returns_no_lead.png', width = 7, height = 5)
-
- 
 # Check which continent Greenland is assigned to
 bllWorld |> 
   filter(gu_a3 == 'GRL') |> 
   select(gu_a3, continent)
 
-# Function to compute geometric mean
-gm_mean <- function(x, na.rm = TRUE){
-  exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
-}
-
-# dollars_per_IQ is highly skewed so use geometric mean to impute missing values
-# relative_iq_cost is highly symmetric so use arithmetic mean
+# relative_iq_cost is highly symmetric so use arithmetic mean to impute missings
 bllWorld <- bllWorld |> 
   group_by(continent) |> 
-  mutate(dollars_per_IQ_continent = gm_mean(dollars_per_IQ),
-         relative_iq_cost_continent = mean(relative_iq_cost, na.rm = TRUE)) |> 
+  mutate(relative_iq_cost_continent = mean(relative_iq_cost, na.rm = TRUE)) |> 
   ungroup() |> 
-  mutate(dollars_per_IQ = if_else(!is.na(dollars_per_IQ),
-                                  dollars_per_IQ, 
-                                  dollars_per_IQ_continent),
-         relative_iq_cost = if_else(!is.na(relative_iq_cost),
+  mutate(relative_iq_cost = if_else(!is.na(relative_iq_cost),
                                     relative_iq_cost,
                                     relative_iq_cost_continent)) |> 
   # It doesn't make sense to compute this average for Greenland since
   # its continent is North America
-  mutate(dollars_per_IQ = if_else(gu_a3 == 'GRL', NA, dollars_per_IQ),
-         relative_iq_cost = if_else(gu_a3 == 'GRL', NA, relative_iq_cost)) 
-
-bllWorld |> 
-  ggplot() + 
-  geom_sf(aes(fill = dollars_per_IQ * beta_IQ_integral)) +
-  scale_fill_viridis_c(option = "plasma", name = '$', trans = 'sqrt')
-ggsave('output/IQcost.pdf', width = 7, height = 5)
+  mutate(relative_iq_cost = if_else(gu_a3 == 'GRL', NA, relative_iq_cost)) 
 
 bllWorld |> 
   ggplot() + 
@@ -79,16 +54,4 @@ bllWorld |>
 bllWorld |>  
   mutate(dollars = popn0019 * gdpc * relative_iq_cost * beta_IQ_integral) |> 
   pull(dollars) |> 
-  sum(na.rm = TRUE) # Approx 600 Billion
-
-
-#load('./data/bllGBD.RData')
-#
-## Compute dollar value of IQ loss: per person, lifetime discounted 
-#bllWorld |> 
-#  st_drop_geometry() |> 
-#  select(dollars_per_IQ, popn0019, beta_IQ_integral) |> 
-#  filter(!is.na(popn0019), !is.na(dollars_per_IQ)) |> 
-#  summarize(per_person = sum(dollars_per_IQ * popn0019 * beta_IQ_integral) / sum(popn0019),
-#            total = sum(dollars_per_IQ * popn0019 * beta_IQ_integral))
-#
+  sum(na.rm = TRUE) # Approx 1.2 Trillion 
