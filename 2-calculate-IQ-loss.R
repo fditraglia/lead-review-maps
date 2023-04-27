@@ -238,6 +238,9 @@ bllGBD <- bllGBD |>
   mutate(LB_IQ_integral = (frac5plus - frac10plus) * iq_loss(5) + 
            frac10plus * iq_loss(10))
 
+bllGBD |> 
+  select(ends_with('integral')) |> 
+  ggpairs() 
 
 # clean up
 rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, get_lnorm_IQ_integral)

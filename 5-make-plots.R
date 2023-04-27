@@ -48,10 +48,51 @@ ggsave('output/relative_iq_cost.pdf', width = 7, height = 5)
 bllWorld |> 
   mutate(percentage = 100 * relative_iq_cost * beta_IQ_integral) |> 
   pull(percentage) |> 
-  quantile(na.rm = TRUE)
+  quantile(na.rm = TRUE) # median 2.4
 
 # Try to calculate an aggregate figure for the world as a whole. 
 bllWorld |>  
   mutate(dollars = popn0019 * gdpc * relative_iq_cost * beta_IQ_integral) |> 
   pull(dollars) |> 
   sum(na.rm = TRUE) # Approx 1.2 Trillion 
+
+#----------------------- Robustness Checks
+# Lognormal
+bllWorld |> 
+  ggplot() + 
+  geom_sf(aes(fill = 100 * relative_iq_cost * lnorm_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt')
+
+
+# Compute summary statistics for the plots
+# Across countries for countries with GBD data.
+bllWorld |> 
+  mutate(percentage = 100 * relative_iq_cost * lnorm_IQ_integral) |> 
+  pull(percentage) |> 
+  quantile(na.rm = TRUE) # median 1.32
+
+# Try to calculate an aggregate figure for the world as a whole. 
+bllWorld |>  
+  mutate(dollars = popn0019 * gdpc * relative_iq_cost * lnorm_IQ_integral) |> 
+  pull(dollars) |> 
+  sum(na.rm = TRUE) # Approx 812 billion
+
+
+# Lower bound 
+bllWorld |> 
+  ggplot() + 
+  geom_sf(aes(fill = 100 * relative_iq_cost * LB_IQ_integral)) +
+  scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt')
+
+# Compute summary statistics for the plots
+# Across countries for countries with GBD data.
+bllWorld |> 
+  mutate(percentage = 100 * relative_iq_cost * LB_IQ_integral) |> 
+  pull(percentage) |> 
+  quantile(na.rm = TRUE)
+
+# Try to calculate an aggregate figure for the world as a whole. 
+bllWorld |>  
+  mutate(dollars = popn0019 * gdpc * relative_iq_cost * LB_IQ_integral) |> 
+  pull(dollars) |> 
+  sum(na.rm = TRUE) # Approx 339 billion
