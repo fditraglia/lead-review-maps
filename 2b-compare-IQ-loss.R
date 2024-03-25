@@ -147,6 +147,7 @@ bllGBD <- bllGBD |>
 #   of BLLs, they fit two regressions: one for adults and one for children. The
 #   estimated regression functions are:
 #
+#     Function:   SD/BLL = alpha - beta * log(BLL)
 #     Children:   (SD of BLL) = 1.79 - 0.627 * log(Mean of BLL)
 #     Adults:     (SD of BLL) = 1.70 - 0.561 * log(Mean of BLL)
 #
@@ -253,15 +254,13 @@ bllGBD <- bllGBD |>
 #-------------------------------------------------------------------------------
 get_Larsen_Sanchez_Triana <- function(mu, sigma) {
   
-  const <- 1 # This may need to be changed later 
-  
   lnorm_seq <- seq(from = 0, to = 50, by = 0.5)
   p <- c(diff(plnorm(lnorm_seq, mu, sigma)), 1 - plnorm(50, mu, sigma))
   
   bll_seq <- c(seq(from = 0.25, to = 50, by = 0.5), 50)
   iq <- crump(bll_seq)
   
-  const * sum(p * iq)
+  sum(p * iq)
 }
 
 
@@ -275,13 +274,10 @@ bllGBD <- bllGBD |>
 #-------------------------------------------------------------------------------
 # Compare the three measures of lost IQ points
 #-------------------------------------------------------------------------------
+library(GGally)
 bllGBD |> 
   select(starts_with('IQ_')) |> 
-  pairs()
-
-bllGBD |> 
-  select(starts_with('IQ_')) |> 
-  cor()
+  ggpairs()
 
 # clean up
 #rm(get_beta_IQ_integral, get_beta_params, get_lnorm_params, get_lnorm_IQ_integral)
