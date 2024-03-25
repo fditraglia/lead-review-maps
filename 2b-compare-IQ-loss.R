@@ -220,7 +220,61 @@ bllGBD <- bllGBD |>
 #           paper. I can't think of an obvious way to do it.
 #-------------------------------------------------------------------------------
 
-# Compare the three measures
+raw_to_log_params <- function(E_X, SD_X) {
+  # For X ~ Log-normal(mu, sigma) compute mu and sigma from E(X) and SD(X)
+  E_X_squared <- SD_X^2 + E_X^2
+  mu <- 2 * log(E_X) - 0.5 * log(E_X_squared)
+  sigma <- sqrt(log(E_X_squared) - 2 * log(E_X))
+  c(mu = mu, sigma = sigma)
+}
+
+# test get_lognormal_params
+set.seed(1983)
+x <- rlnorm(1e7, meanlog = 0.5, sdlog = 1.3)
+raw_to_log_params(mean(x), sd(x))
+rm(x)
+
+#-------------------------------------------------------------------------------
+# Compute lognormal parameters for all countries
+#-------------------------------------------------------------------------------
+get_lognormal_params <- function(avgbll) {
+  sdbll <- 1.79 - 0.627 * log(avgbll)
+  raw_to_log_params(avgbll, sdbll)
+}
+
+bllGBD <- bllGBD |> 
+  select(avgbll) |> 
+  pmap_dfr(get_lognormal_params) |> 
+  bind_cols(bllGBD) 
+
+
+#-------------------------------------------------------------------------------
+# Function approximate the IQ loss integral in Larsen & Sanchez-Triana
+#-------------------------------------------------------------------------------
+get_Larsen_Sanchez_Triana <- function(mu, sigma) {
+  
+  const <- 1 # This may need to be changed later 
+  
+  lnorm_seq <- seq(from = 0, to = 50, by = 0.5)
+  p <- c(diff(plnorm(lnorm_seq, mu, sigma)), 1 - plnorm(50, mu, sigma))
+  
+  bll_seq <- c(seq(from = 0.25, to = 50, by = 0.5), 50)
+  iq <- crump(bll_seq)
+  
+  const * sum(p * iq)
+}
+
+
+#-------------------------------------------------------------------------------
+# Compute the Larsen & Sanchez-Triana integral for all countries 
+#-------------------------------------------------------------------------------
+bllGBD <- bllGBD |> 
+  mutate(IQ_Larsen_Sanchez_Triana = map2_dbl(mu, sigma, get_Larsen_Sanchez_Triana))
+
+
+#-------------------------------------------------------------------------------
+# Compare the three measures of lost IQ points
+#-------------------------------------------------------------------------------
 bllGBD |> 
   select(starts_with('IQ_')) |> 
   pairs()
