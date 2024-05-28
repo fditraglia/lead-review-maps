@@ -1,12 +1,9 @@
 library(GGally)
 #-------------------------------------------------------------------------------
-# IQ points lost as a function of BLL (Lanphear, 2005)
+# IQ points lost as a function of BLL (Crump et al 2013)
 #-------------------------------------------------------------------------------
 iq_loss <- function(bll) {
-  # In our other paper we multiplied this by 20568 to convert to a dollar cost.
-  # Here we leave the result is in units of IQ points.
-  pmin(bll, 10) * 0.513 + (bll >= 10) * pmin(bll - 10, 20 - 10) * 0.19 +
-             (bll >= 20) * (bll - 20) * 0.11
+  3.246 * log(bll + 1)
 }
 
 #-------------------------------------------------------------------------------
