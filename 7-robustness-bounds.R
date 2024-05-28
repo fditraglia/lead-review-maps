@@ -9,6 +9,7 @@ library(tidyverse)
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
+library(scam)
 
 # Increase average bll by 5% 
 multiplier <- 1.05 
@@ -16,22 +17,33 @@ multiplier <- 1.05
 #----------------- Same prelim data cleaning as before 
 source('1-prep-data.R') 
 
-# LOESS regression of avgbll on frac5plus and frac10plus: needed to predict how
-# the fraction with BLLs >=5 and >=10 would differ in a regime where every 
-# country had a higher average BLL 
-loess_5plus <- loess(frac5plus ~ avgbll, data = bllGBD)
-loess_10plus <- loess(frac10plus ~ avgbll, data = bllGBD)
+# Shape-constrained GAM (scam) regressions of avgbll on frac5plus and frac10plus: 
+# needed to predict how the fraction with BLLs >=5 and >=10 would differ in a regime where every 
+# country had a higher average BLL. 
+
+# Unlike LOESS, SCAM can force monotonicity. We need this to prevent the 5plus
+# regression function from decreasing slightly at extremely high BLLs
+scam_5plus <- scam(frac5plus ~ s(avgbll, bs = 'mpi'), data = bllGBD)
+scam_10plus <- scam(frac10plus ~ s(avgbll, bs = 'mpi'), data = bllGBD)
+
+# Plot the regression functions - sanity check
+
+plot(bllGBD$avgbll, bllGBD$frac5plus, col = 'red', main = '5 plus')
+points(bllGBD$avgbll, predict(scam_5plus), col = 'blue', pch = 20)
+
+plot(bllGBD$avgbll, bllGBD$frac10plus, col = 'red', main = '10 plus')
+points(bllGBD$avgbll, predict(scam_10plus), col = 'blue', pch = 20)
 
 
-# Predict frac5plus and frac10plus using the LOESS regressions if all countries
-# have their BLL scaled by multiplier
+# Predict frac5plus and frac10plus using the shape-constrained GAM regressions 
+# if all countries have their BLL scaled by multiplier
 
 bllGBD_scaled <- bllGBD |> 
   mutate(avgbll = avgbll * multiplier)
          
 bllGBD_scaled <- bllGBD_scaled |> 
-  mutate(frac5plus = predict(loess_5plus, newdata = select(bllGBD_scaled, avgbll)),
-         frac10plus = predict(loess_10plus, newdata = select(bllGBD_scaled, avgbll)),
+  mutate(frac5plus = predict(scam_5plus, newdata = select(bllGBD_scaled, avgbll)),
+         frac10plus = predict(scam_10plus, newdata = select(bllGBD_scaled, avgbll)),
          total5plus = frac5plus * popn0019,
          total10plus = frac10plus * popn0019)
 
