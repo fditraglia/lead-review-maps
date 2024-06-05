@@ -98,4 +98,4 @@ get_headline_stats(bllWorld)
 get_headline_stats(bllWorld_scaled)
 
 
-rm(list = ls())
+#rm(list = ls())

@@ -1,6 +1,6 @@
-library(sf)
-library(tidyverse)
-load('data/bllWorld.RData')
+# Merge shapefiles with lead data and make plots
+bllWorld <- world |> 
+  left_join(bllGBD) 
 
 # Set ggplot theme
 theme_set(theme_bw())
@@ -21,8 +21,8 @@ ggsave('output/frac10plus.pdf', width = 7, height = 5)
 
 # Check which continent Greenland is assigned to
 bllWorld |> 
-  filter(gu_a3 == 'GRL') |> 
-  select(gu_a3, continent)
+  filter(iso3c == 'GRL') |> 
+  select(iso3c, continent)
 
 # relative_iq_cost is highly symmetric so use arithmetic mean to impute missings
 bllWorld <- bllWorld |> 
@@ -34,7 +34,7 @@ bllWorld <- bllWorld |>
                                     relative_iq_cost_continent)) |> 
   # It doesn't make sense to compute this average for Greenland since
   # its continent is North America
-  mutate(relative_iq_cost = if_else(gu_a3 == 'GRL', NA, relative_iq_cost)) 
+  mutate(relative_iq_cost = if_else(iso3c == 'GRL', NA, relative_iq_cost)) 
 
 bllWorld |> 
   ggplot() + 
@@ -55,5 +55,4 @@ bllWorld |>
   geom_sf(aes(fill = 100 * relative_iq_cost * LB_IQ_integral)) +
   scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt')
 
-
-rm(list = ls())
+rm(bllWorld)
