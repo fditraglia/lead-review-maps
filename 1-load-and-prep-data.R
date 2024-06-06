@@ -309,7 +309,7 @@ rm(US_returns)
 
 
 #-------------------------------------------------------------------------------
-# Load country shapefiles for plotting maps later on 
+# Load country shapefiles for plotting maps later on and continent names
 #-------------------------------------------------------------------------------
 
 # Get country polygons for all continents excluding Antarctica 
@@ -327,8 +327,66 @@ continents <- world |>
   st_drop_geometry() |>
   select(continent, iso3c) 
 
-bllGBD |> 
+bllGBD <- bllGBD |> 
   left_join(continents)
 
 # clean up
 rm(continents)
+
+#-------------------------------------------------------------------------------
+# Create new definition of continents that replaces the North versus South 
+# America distinction with North versus South / Central America 
+#-------------------------------------------------------------------------------
+
+# "North America" includes Central American and Caribbean countries (and Greenland)
+bllGBD |> 
+  filter(continent == 'North America') |> 
+  select(iso3c, WBcountry) |> 
+  arrange(WBcountry) |> 
+  print(n = 27) 
+  
+
+bllGBD <- bllGBD |> 
+  mutate(in_SC_America = (continent %in% c("South America", "North America")) & 
+           !(iso3c %in% c('USA', 'CAN', 'GRL')), 
+         continent = ifelse(in_SC_America, "South/Central America", continent)) |> 
+  select(-in_SC_America)
+                                                                                  
+
+
+#-------------------------------------------------------------------------------
+# Manually add missing continents 
+#-------------------------------------------------------------------------------
+bllGBD |> 
+  filter(is.na(continent)) |> 
+  select(WBcountry, iso3c) |> 
+  arrange(WBcountry) |> 
+  print(n = 100)
+
+unique(bllGBD$continent)
+
+bllGBD <- bllGBD |> 
+  mutate(continent = case_when(
+    str_detect(WBcountry, "Maldives") ~ 'Asia', 
+    str_detect(WBcountry, "Mauritius") ~ 'Africa', 
+    str_detect(WBcountry, "Seychelles") ~ 'Africa', 
+    str_detect(WBcountry, "South Sudan") ~ 'Africa', 
+    str_detect(WBcountry, "Tuvalu") ~ 'Oceania', 
+    .default = continent
+  )) 
+
+#-------------------------------------------------------------------------------
+# Impute missing values for relative_iq_cost using continent averages
+#     *SHOULD THIS BE POPN-WEIGHTED?*
+#-------------------------------------------------------------------------------
+
+# It doesn't make sense to do this for Greenland since its continent is North America
+bllGBD <- bllGBD |> 
+  mutate(missing_relative_iq_cost = is.na(relative_iq_cost)) |>
+  group_by(continent) |> 
+  mutate(relative_iq_cost_continent = mean(relative_iq_cost, na.rm = TRUE)) |> 
+  ungroup() |> 
+  mutate(relative_iq_cost = if_else(!is.na(relative_iq_cost),
+                                    relative_iq_cost,
+                                    relative_iq_cost_continent)) |> 
+  mutate(relative_iq_cost = if_else(iso3c == 'GRL', NA, relative_iq_cost)) 

@@ -1,10 +1,8 @@
 # Compute summary statistics for the plots
 # Across countries for countries with GBD data.
 
-# Note: these summary statistics have changed very slightly since I refactored 
-# the code. None of the changes are consequential, but I'm not 100% sure what
-# has caused them.
-
+# Note: these summary statistics have since I refactored the code. I'm not 100%
+# what caused this. *I NEED TO CHECK INTO THIS*
 bllGBD |> 
   mutate(percentage = 100 * relative_iq_cost * beta_IQ_integral) |> 
   pull(percentage) |> 
