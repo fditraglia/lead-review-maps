@@ -35,7 +35,7 @@ make_panel_B <- function(in_data, IQ_integral) {
     mutate(percentage = 100 * relative_iq_cost * {{ IQ_integral }}) |> 
     filter(!is.na(percentage) & !is.na(popn0019) & !is.na(continent)) |> 
     group_by(continent) |>
-    summarize(popn_weighted_avg = sum(popn0019 * percentage) / sum(popn0019)) 
+    summarize(pw_avg = sum(popn0019 * percentage) / sum(popn0019)) 
 }
 
 #------------------------------------------------------------------------------
@@ -72,6 +72,7 @@ B3 <- bllGBD |>
 #------------------------------------------------------------------------------
 
 Crump_lower <- bllGBD |> 
+  select(-ends_with('integral')) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
                                      my_loss = \(x) iq_loss(x, beta = 1.88))) 
 
@@ -89,6 +90,7 @@ rm(Crump_lower)
 #------------------------------------------------------------------------------
 
 Crump_upper <- bllGBD |> 
+  select(-ends_with('integral')) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
                                      my_loss = \(x) iq_loss(x, beta = 4.66)))
 
@@ -142,52 +144,79 @@ plot(bllGBD$avgbll, bllGBD$frac10plus, col = 'red', main = '10 plus')
 points(bllGBD$avgbll, predict(scam_10plus), col = 'blue', pch = 20)
 
 # Function to "scale up" BLL data
-scale_BLL <- function(multiplier) {
-  bllGBD |> 
-    mutate(avgbll = avgbll * multiplier) |> 
+scale_up_BLL <- function(multiplier) {
+  bllGBD_scaled <- bllGBD |> 
+    mutate(avgbll = avgbll * multiplier) 
+ 
+  bllGBD_scaled |> 
     mutate(frac5plus = predict(scam_5plus, newdata = select(bllGBD_scaled, avgbll)),
            frac10plus = predict(scam_10plus, newdata = select(bllGBD_scaled, avgbll)),
            total5plus = frac5plus * popn0019,
            total10plus = frac10plus * popn0019)
 }
 
-# Increase average bll by 5% 
-multiplier <- 1.05 
+# Increase average BLL by 5%; adjust fractions of BLLs above 5 and 10 accordingly
+bllGBD_scaled5 <- scale_up_BLL(multiplier = 1.05) |> 
+  select(-ends_with('integral')) |> 
+  mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
 
+A6 <- bllGBD_scaled5 |>
+  make_panel_A(beta_IQ_integral)
 
-# Clean up and replace overwrite the "true" GBD BLL data with our scaled version  
-#bllGBD <- bllGBD_scaled
-#rm(aerosol, loess_5plus, loess_10plus, bllGBD_scaled)
+B6 <- bllGBD_scaled5 |>
+  make_panel_B(beta_IQ_integral)
+
+# Clean up
+rm(bllGBD_scaled5)
 
 #------------------------------------------------------------------------------
 # Approach (7) - Increase average BLL by 10%
 #------------------------------------------------------------------------------
 
+# Increase average BLL by 5%; adjust fractions of BLLs above 5 and 10 accordingly
+bllGBD_scaled10 <- scale_up_BLL(multiplier = 1.10) |> 
+  select(-ends_with('integral')) |> 
+  mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
 
-#-------------------------------------------------------------------------------
-# OLD STUFF BELOW HERE
-#-------------------------------------------------------------------------------
+A7 <- bllGBD_scaled10 |>
+  make_panel_A(beta_IQ_integral)
+
+B7 <- bllGBD_scaled10 |>
+  make_panel_B(beta_IQ_integral)
+
+# Clean up
+rm(bllGBD_scaled10)
+
+#------------------------------------------------------------------------------
+# Combine results into tables
+#------------------------------------------------------------------------------
+method_names <- c('Baseline',  # Approach (1)
+                  'Log-normal', # Approach (2)
+                  'Lower bound', # Approach (3)
+                  'Lower CI', # Approach (4)
+                  'Upper CI', # Approach (5)
+                  '5% increase', # Approach (6)
+                  '10% increase') # Approach (7)
+
+panel_A <- tibble(method = method_names,  
+                  total_damage = c(A1, A2, A3, A4, A5, A6, A7))
 
 
+# Rename the column pw_avg from B1, B2, ..., B7 to match method_names
+names(B1)[2] <- method_names[1]
+names(B2)[2] <- method_names[2]
+names(B3)[2] <- method_names[3]
+names(B4)[2] <- method_names[4]
+names(B5)[2] <- method_names[5]
+names(B6)[2] <- method_names[6]
+names(B7)[2] <- method_names[7]
 
+# Merge into a single table of results
+panel_B <- B1 |> 
+  left_join(B2) |> 
+  left_join(B3) |>
+  left_join(B4) |>
+  left_join(B5) |>
+  left_join(B6) |>
+  left_join(B7) 
 
-#----------------- Compare headline numbers between "true" and scaled-up BLLs
-
-
-
-get_headline_stats <- function(in_data) {
-  in_data |> 
-    mutate(percentage = 100 * relative_iq_cost * beta_IQ_integral,
-         dollars = popn0019 * gdpc * relative_iq_cost * beta_IQ_integral) |>
-  select(percentage, dollars) |> 
-  as_tibble() |> 
-  summarize(median_percentage = median(percentage, na.rm = TRUE), 
-            total_dollars = sum(dollars, na.rm = TRUE)) 
-}
-
-get_headline_stats(bllWorld)
-
-get_headline_stats(bllWorld_scaled)
-
-
-#rm(list = ls())
