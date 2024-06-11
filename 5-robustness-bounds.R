@@ -47,7 +47,6 @@ A1 <- bllGBD |>
 B1 <- bllGBD |> 
   make_panel_B(beta_IQ_integral)
 
-
 #------------------------------------------------------------------------------
 # Approach (2) - Log-normal distributions
 #------------------------------------------------------------------------------
@@ -107,15 +106,30 @@ rm(Crump_upper)
 #------------------------------------------------------------------------------
 
 # Approaches (6) and (7) are sensitivity analyses in which we suppose that the 
-# GBD data under-estimates average BLLs in a country by some fraction.
+# GBD data under-estimates the true prevalence of elevated BLLs.
 
-# Shape-constrained GAM (scam) regressions of avgbll on frac5plus and frac10plus: 
-# needed to predict how the fraction with BLLs >=5 and >=10 would differ in a regime where every 
-# country had a higher average BLL. 
+# We operationalize this by scaling up the average BLL reported in a given
+# country by some percentage, say 5%. Because our baseline calculations
+# rely on the mean BLL and fraction above 5 and 10 micrograms / dl, this 
+# sensitivity analysis also requires us to adjust these quantities.
 
-# Unlike LOESS, SCAM can impose monotonicity. We need this to prevent the 5plus
-# regression function from decreasing slightly at extremely high BLLs where 
-# we have practically no data.
+# We do this by carrying out shape-constrained GAM (scam) regressions of the 
+# GBD-reported average BLLs (avgbll) on the GBD-reported fractions of BLLs
+# that are above 5 and 10 micrograms / dl, i.e. frac5plus and frac10plus.
+
+# We then use the fitted scam regressions to predict how the fractions of BLLs
+# above 5 and 10 micrograms / dl would change if the average BLL in a given
+# country were scaled up by, say, 5%. 
+
+# We then treat the scaled-up average blls and predicted fractions as the "true"
+# BLL data and repeat our baseline calculations using these new data. I.e. we
+# fit the parameters of a beta distribution and calculate the integrated IQ loss
+# using the point estimate from Crump et al. (2013).
+
+# The shape-constrained GAMs prevent the estimated relationship between 
+# frac5plus and avgbll from decreasing at extremely high average BLLs, where we 
+# have effectively no data.
+
 scam_5plus <- scam(frac5plus ~ s(avgbll, bs = 'mpi'), data = bllGBD)
 scam_10plus <- scam(frac10plus ~ s(avgbll, bs = 'mpi'), data = bllGBD)
 
@@ -127,6 +141,24 @@ points(bllGBD$avgbll, predict(scam_5plus), col = 'blue', pch = 20)
 plot(bllGBD$avgbll, bllGBD$frac10plus, col = 'red', main = '10 plus')
 points(bllGBD$avgbll, predict(scam_10plus), col = 'blue', pch = 20)
 
+# Function to "scale up" BLL data
+scale_BLL <- function(multiplier) {
+  bllGBD |> 
+    mutate(avgbll = avgbll * multiplier) |> 
+    mutate(frac5plus = predict(scam_5plus, newdata = select(bllGBD_scaled, avgbll)),
+           frac10plus = predict(scam_10plus, newdata = select(bllGBD_scaled, avgbll)),
+           total5plus = frac5plus * popn0019,
+           total10plus = frac10plus * popn0019)
+}
+
+# Increase average bll by 5% 
+multiplier <- 1.05 
+
+
+# Clean up and replace overwrite the "true" GBD BLL data with our scaled version  
+#bllGBD <- bllGBD_scaled
+#rm(aerosol, loess_5plus, loess_10plus, bllGBD_scaled)
+
 #------------------------------------------------------------------------------
 # Approach (7) - Increase average BLL by 10%
 #------------------------------------------------------------------------------
@@ -136,44 +168,7 @@ points(bllGBD$avgbll, predict(scam_10plus), col = 'blue', pch = 20)
 # OLD STUFF BELOW HERE
 #-------------------------------------------------------------------------------
 
-# This script carries out a sensitivity analysis to see how changes to the 
-# BLL data from the GBD would affect our overall results. In particular, we
-# will *scale up* the average BLL by a certain number of percentage points, e.g.
-# 5%, 10%, etc. We will then estimate the IQ loss assuming that these BLL values
-# are the true ones. This will give us a sense of how sensitive our results are
-# to the underlying GBD data.
 
-
-
-                        
-  
-
-# Calculate population-weighted relative IQ cost by continent
-bllGBD |> 
-  filter(!is.na(relative_iq_cost) & !is.na(beta_IQ_integral) & !is.na(popn0019) & !is.na(continent)) |> 
-  group_by(continent) |> 
-  summarize(relative_iq_cost = 100 * sum(popn0019 * relative_iq_cost * beta_IQ_integral) / sum(popn0019)) 
-
-
-# Predict frac5plus and frac10plus using the shape-constrained GAM regressions 
-# if all countries have their BLL scaled by multiplier
-
-# Increase average bll by 5% 
-#multiplier <- 1.05 
-
-
-#bllGBD_scaled <- bllGBD |> 
-#  mutate(avgbll = avgbll * multiplier)
-         
-#bllGBD_scaled <- bllGBD_scaled |> 
-#  mutate(frac5plus = predict(scam_5plus, newdata = select(bllGBD_scaled, avgbll)),
-#         frac10plus = predict(scam_10plus, newdata = select(bllGBD_scaled, avgbll)),
-#         total5plus = frac5plus * popn0019,
-#         total10plus = frac10plus * popn0019)
-
-# Clean up and replace overwrite the "true" GBD BLL data with our scaled version  
-#bllGBD <- bllGBD_scaled
-#rm(aerosol, loess_5plus, loess_10plus, bllGBD_scaled)
 
 
 #----------------- Compare headline numbers between "true" and scaled-up BLLs
