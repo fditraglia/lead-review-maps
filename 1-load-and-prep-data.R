@@ -150,7 +150,6 @@ bllGBD <- country_names |>
 rm(bll, bll10plus, bll5plus, country_names, popn, total10plus, total5plus)
   
 
-
 #-------------------------------------------------------------------------------
 # Load returns to education data 
 #-------------------------------------------------------------------------------
@@ -160,6 +159,9 @@ returns_to_educ <- read_excel('data-raw/Comparable Returns to Education Database
 #-------------------------------------------------------------------------------
 # Merge iso3c
 #-------------------------------------------------------------------------------
+iso_lookup <- bllGBD |> 
+  filter(!is.na(iso3c)) |> 
+  select(iso3c, country = WBcountry) 
 
 educ_countries <- sort(unique(returns_to_educ$Economy))
 cbind(educ_countries[!(educ_countries %in% iso_lookup$country)])
