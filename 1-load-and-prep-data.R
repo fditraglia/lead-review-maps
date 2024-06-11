@@ -150,38 +150,6 @@ bllGBD <- country_names |>
 rm(bll, bll10plus, bll5plus, country_names, popn, total10plus, total5plus)
   
 
-#-------------------------------------------------------------------------------
-# Load aerosol data 
-#-------------------------------------------------------------------------------
-aerosol <- read_excel('data-raw/20221110 global aerosol pb updated.xlsx', sheet = 1)
-
-#-------------------------------------------------------------------------------
-# Merge iso3c codes with aerosol
-#-------------------------------------------------------------------------------
-iso_lookup <- bllGBD |> 
-  filter(!is.na(iso3c)) |> 
-  select(iso3c, country = WBcountry) 
-
-aerosol_countries <- sort(unique(aerosol$`Country and Region`))
-aerosol_countries[!(aerosol_countries %in% iso_lookup$country)]
-
-aerosol <- aerosol |> 
-  rename(country = `Country and Region`) |> 
-  filter(!is.na(country)) |> # remove single measurement for "Indian Ocean"
-  left_join(iso_lookup) |> 
-  relocate(iso3c, country) |> 
-  mutate(iso3c = case_when(
-    str_detect(country, 'Czech Republic') ~ 'CZE',
-    str_detect(country, 'Egypt') ~ '',
-    str_detect(country, 'Kazahkstan') ~ 'KAZ',
-    str_detect(country, 'Russia') ~ 'RUS',
-    str_detect(country, 'South Korea') ~ 'KOR',
-    str_detect(country, 'Turkey') ~ 'TUR',
-    .default = iso3c
-  )) 
-
-# clean up
-rm(aerosol_countries)
 
 #-------------------------------------------------------------------------------
 # Load returns to education data 
