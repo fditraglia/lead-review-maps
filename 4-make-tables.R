@@ -72,7 +72,6 @@ B3 <- bllGBD |>
 #------------------------------------------------------------------------------
 
 Crump_lower <- bllGBD |> 
-  select(-ends_with('integral')) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
                                      my_loss = \(x) iq_loss(x, beta = 1.88))) 
 
@@ -90,7 +89,6 @@ rm(Crump_lower)
 #------------------------------------------------------------------------------
 
 Crump_upper <- bllGBD |> 
-  select(-ends_with('integral')) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
                                      my_loss = \(x) iq_loss(x, beta = 4.66)))
 
@@ -156,8 +154,13 @@ scale_up_BLL <- function(multiplier) {
 }
 
 # Increase average BLL by 5%; adjust fractions of BLLs above 5 and 10 accordingly
-bllGBD_scaled5 <- scale_up_BLL(multiplier = 1.05) |> 
-  select(-ends_with('integral')) |> 
+bllGBD_scaled5 <- scale_up_BLL(multiplier = 1.05) |>  
+  select(-shape1, -shape2, -ends_with('integral'))
+
+bllGBD_scaled5 <- bllGBD_scaled5 |>  
+  select(avgbll, frac5plus, frac10plus) |> 
+  pmap_dfr(get_beta_params) |> 
+  bind_cols(bllGBD_scaled5) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
 
 A6 <- bllGBD_scaled5 |>
@@ -173,10 +176,15 @@ rm(bllGBD_scaled5)
 # Approach (7) - Increase average BLL by 10%
 #------------------------------------------------------------------------------
 
-# Increase average BLL by 5%; adjust fractions of BLLs above 5 and 10 accordingly
-bllGBD_scaled10 <- scale_up_BLL(multiplier = 1.10) |> 
-  select(-ends_with('integral')) |> 
+bllGBD_scaled10 <- scale_up_BLL(multiplier = 1.10) |>  
+  select(-shape1, -shape2, -ends_with('integral'))
+
+bllGBD_scaled10 <- bllGBD_scaled10 |>  
+  select(avgbll, frac5plus, frac10plus) |> 
+  pmap_dfr(get_beta_params) |> 
+  bind_cols(bllGBD_scaled10) |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral))
+
 
 A7 <- bllGBD_scaled10 |>
   make_panel_A(beta_IQ_integral)
