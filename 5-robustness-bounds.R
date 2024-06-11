@@ -72,9 +72,35 @@ B3 <- bllGBD |>
 # Approach (4) - Lower confidence limit from Crump et al. (beta = 1.88)
 #------------------------------------------------------------------------------
 
+Crump_lower <- bllGBD |> 
+  mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
+                                     my_loss = \(x) iq_loss(x, beta = 1.88))) 
+
+A4 <- Crump_lower |>
+  make_panel_A(beta_IQ_integral)
+
+B4 <- Crump_lower |>
+  make_panel_B(beta_IQ_integral)
+  
+# Clean up
+rm(Crump_lower)
+
 #------------------------------------------------------------------------------
 # Approach (5) - Upper confidence limit from Crump et al. (beta = 4.66)
 #------------------------------------------------------------------------------
+
+Crump_upper <- bllGBD |> 
+  mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
+                                     my_loss = \(x) iq_loss(x, beta = 4.66)))
+
+A5 <- Crump_upper |>
+  make_panel_A(beta_IQ_integral)
+
+B5 <- Crump_upper |>
+  make_panel_B(beta_IQ_integral)
+
+# Clean up
+rm(Crump_upper)
 
 #------------------------------------------------------------------------------
 # Approach (6) - Increase average BLL by 5%

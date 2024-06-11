@@ -78,19 +78,19 @@ get_beta_params <- function(avgbll, frac5plus, frac10plus) {
 #-------------------------------------------------------------------------------
 # Compute integrated IQ loss: Beta version
 #-------------------------------------------------------------------------------
-get_beta_IQ_integral <- function(shape1, shape2) {
+get_beta_IQ_integral <- function(shape1, shape2, my_loss = iq_loss) {
   # Beta density on [0, 100]
   f <- \(x) dbeta(x / 100, shape1, shape2) / 100 # Jacobian!
-  integral <- integrate(\(x) f(x) * iq_loss(x), 0, Inf)
+  integral <- integrate(\(x) f(x) * my_loss(x), 0, Inf)
   return(integral$value)
 }
 
 #-------------------------------------------------------------------------------
 # Compute integrated IQ loss: Lognormal version
 #-------------------------------------------------------------------------------
-get_lnorm_IQ_integral <- function(meanlog, sdlog) {
-  # Beta density on [0, 100]
+get_lnorm_IQ_integral <- function(meanlog, sdlog, my_loss = iq_loss) {
+  # Lognormal density on [0, Inf] 
   f <- \(x) dlnorm(x, meanlog, sdlog) 
-  integral <- integrate(\(x) f(x) * iq_loss(x), 0, Inf)
+  integral <- integrate(\(x) f(x) * my_loss(x), 0, Inf)
   return(integral$value)
 }
