@@ -211,11 +211,11 @@ bllGBD <- returns_to_educ |>
   ungroup() |> 
   right_join(bllGBD)
 
-# Download gdp per capita at PPP in current international $ 
-WBgdpc <- wb_data('NY.GDP.PCAP.PP.CD', 
+# Download gdp per capita at PPP in constant 2021 international $ 
+WBgdpc <- wb_data('NY.GDP.PCAP.PP.KD',
                   start_date = 2010,
                   end_date = 2019) |> 
-  rename(gdpc = NY.GDP.PCAP.PP.CD)
+  rename(gdpc = NY.GDP.PCAP.PP.KD)
 
 
 # For some countries gdpc is only available in selected years.
