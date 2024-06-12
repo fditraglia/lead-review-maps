@@ -347,7 +347,6 @@ bllGBD <- bllGBD |>
 
 #-------------------------------------------------------------------------------
 # Impute missing values for relative_iq_cost using continent averages
-#     *SHOULD THIS BE POPN-WEIGHTED?*
 #-------------------------------------------------------------------------------
 
 # It doesn't make sense to do this for Greenland since its continent is North America
