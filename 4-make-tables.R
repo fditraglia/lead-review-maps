@@ -1,4 +1,3 @@
-# This script should be re-named and re-numbered when I finish updating it. 
 #------------------------------------------------------------------------------
 # This script produces two tables of results: 
 #
