@@ -241,7 +241,7 @@ bllGBD <- WBgdpc |>
 rm(returns_to_educ, WBgdpc)
 
 #-------------------------------------------------------------------------------
-# Approximate $ / IQ point in terms of foregone earnings.
+# Approximate cost in foregone earnings of 1 lower IQ point 
 #-------------------------------------------------------------------------------
 #
 # In our IL paper we monetized the loss of one IQ point for a 3-year old as 
