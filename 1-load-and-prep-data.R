@@ -288,6 +288,8 @@ world <- ne_countries(scale = "medium",
                       continent = c('North America', 'Africa', 'Europe', 
                                     'Asia', 'South America', 'Oceania'))
 
+st_agr(world) <- 'constant' # remove holes in polygons
+
 # gu_a3 is geounit iso. Rename for later merging with bllGBD
 world <- world |> 
   rename(iso3c = gu_a3)

@@ -18,6 +18,7 @@
 #   (7) Same as (1) except increasing the average BLL by 10% (described below)
 #------------------------------------------------------------------------------
 library(scam) # for shape-constrained GAMs
+library(gt) # for table formatting
 
 #------------------------------------------------------------------------------
 # Helper functions
@@ -31,7 +32,7 @@ make_panel_A <- function(in_data, IQ_integral) {
 
 make_panel_B <- function(in_data, IQ_integral) {
   in_data |> 
-    mutate(percentage = 100 * relative_iq_cost * {{ IQ_integral }}) |> 
+    mutate(percentage = relative_iq_cost * {{ IQ_integral }}) |> 
     filter(!is.na(percentage) & !is.na(popn0019) & !is.na(continent)) |> 
     group_by(continent) |>
     summarize(pw_avg = sum(popn0019 * percentage) / sum(popn0019)) 
@@ -226,4 +227,54 @@ panel_B <- B1 |>
   left_join(B5) |>
   left_join(B6) |>
   left_join(B7) 
+
+# Reshape panel_A to wide format
+panel_A_wide <- panel_A |>
+  pivot_wider(names_from = method, values_from = total_damage)
+
+# Create a placeholder for the continent column
+panel_A_wide <- panel_A_wide |>
+  mutate(continent = "Total") |> 
+  select(continent, everything())
+
+# Append panel_A to panel_B
+bind_rows(panel_B, panel_A_wide)
+
+# Append panel_A to panel_B
+final_panel <- 
+
+# Create gt table
+gt_table <- bind_rows(panel_B, panel_A_wide) |> 
+  gt() |> 
+  # Format percentage columns
+  fmt_number(
+    columns = 2:8,
+    decimals = 2,
+    suffixing = TRUE
+  ) |> 
+  # Format the totals in dollars (assuming columns 2:8 contain the totals)
+  fmt_number(
+    rows = continent == "Total",
+    columns = 2:8,
+    n_sigfig = 2,
+    suffixing = TRUE,
+    pattern = "{x} USD"
+  ) %>%
+  # Format percentages for other rows
+  fmt_percent(
+    rows = continent != "Total",
+    columns = 2:8,
+    decimals = 1
+  ) |> 
+  # Add titles and footnotes
+  tab_header(
+    title = "Damage Assessment by Continent and Method",
+    subtitle = "Values are in percentages of GDP/capita except for Total, which is in 2021 International Dollars at PPP."
+  ) |> 
+  tab_source_note(
+    source_note = "Data source: Authors' Calculations"
+  )
+
+# Print the gt table
+gt_table
 

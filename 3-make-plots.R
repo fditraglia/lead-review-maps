@@ -6,6 +6,12 @@ bllWorld <- world |>
 # Set ggplot theme
 theme_set(theme_bw())
 
+# Update the theme globally to increase the font size of the legend text and title
+theme_update(
+  legend.text = element_text(size = 12), # Change legend text size
+  legend.title = element_text(size = 14) # Change legend title size
+)
+
 # Fraction with BLL > 5 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
