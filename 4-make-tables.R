@@ -68,12 +68,12 @@ B3 <- bllGBD |>
   make_panel_B(LB_IQ_integral)
 
 #------------------------------------------------------------------------------
-# Approach (4) - Lower confidence limit from Crump et al. (beta = 1.88)
+# Approach (4) - Lower confidence limit from Crump et al. (beta = 1.833)
 #------------------------------------------------------------------------------
 
 Crump_lower <- bllGBD |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
-                                     my_loss = \(x) iq_loss(x, beta = 1.88))) 
+                                     my_loss = \(x) iq_loss(x, beta = 1.833))) 
 
 A4 <- Crump_lower |>
   make_panel_A(beta_IQ_integral)
@@ -85,12 +85,12 @@ B4 <- Crump_lower |>
 rm(Crump_lower)
 
 #------------------------------------------------------------------------------
-# Approach (5) - Upper confidence limit from Crump et al. (beta = 4.66)
+# Approach (5) - Upper confidence limit from Crump et al. (beta = 4.659)
 #------------------------------------------------------------------------------
 
 Crump_upper <- bllGBD |> 
   mutate(beta_IQ_integral = map2_dbl(shape1, shape2, get_beta_IQ_integral,
-                                     my_loss = \(x) iq_loss(x, beta = 4.66)))
+                                     my_loss = \(x) iq_loss(x, beta = 4.659)))
 
 A5 <- Crump_upper |>
   make_panel_A(beta_IQ_integral)

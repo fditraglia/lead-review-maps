@@ -3,10 +3,19 @@
 #-------------------------------------------------------------------------------
 # IQ points lost as a function of BLL (Crump et al 2013)
 # 
-#   The point estimate of beta from the study is 3.246 with a 95% confidence
-#   interval of [1.88, 4.66]. (See Appendix from Larsen & Sanchez-Triana 2023). 
-#   We default to the point estimate but allow this value to be changed for use
-#   in our robustness exercises. 
+#   We reverse the sign from Crump et al 2013, working with positive values of
+#   IQ points *lost*. We take our values from their Table 5, in particular from
+#   the row "Lifetime / Ln(BPb + 1)" which uses "average lifetime BPb (the mean 
+#   BPb from 6 months to the time of the IQ test)" as the measure of blood lead
+#   levels "BPd" and transforms this measure according to log(x + 1) before 
+#   estimating a linear regression on IQ scores "adjusted for site, HOME score,
+#   birth weight, maternal IQ, maternal education, maternal alcohol, maternal
+#   tobacco usage, and birth order." The point of beta from this source is 3.246 
+#   with a 95% confidence interval of [1.833, 4.659]. Note that the value of 
+#   the lower confidence limit from the Appendix to Larsen & Sanchez-Triana 2023
+#   contains a typo: they quote this value as 1.88. The following function 
+#   defaults to the point estimate from Crump et al 2013 but allows this value
+#   to be changed for use in our robustness exercises.
 #-------------------------------------------------------------------------------
 iq_loss <- function(bll, beta = 3.246) {
   beta * log(bll + 1)
