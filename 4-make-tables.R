@@ -226,7 +226,8 @@ panel_B <- B1 |>
   left_join(B4) |>
   left_join(B5) |>
   left_join(B6) |>
-  left_join(B7) 
+  left_join(B7) |> 
+  rename(Continent = continent)
 
 # Reshape panel_A to wide format
 panel_A_wide <- panel_A |>
@@ -234,8 +235,8 @@ panel_A_wide <- panel_A |>
 
 # Create a placeholder for the continent column
 panel_A_wide <- panel_A_wide |>
-  mutate(continent = "Total") |> 
-  select(continent, everything())
+  mutate(Continent = "Total") |> 
+  select(Continent, everything())
 
 # Append panel_A to panel_B
 bind_rows(panel_B, panel_A_wide)
@@ -244,7 +245,7 @@ bind_rows(panel_B, panel_A_wide)
 final_panel <- 
 
 # Create gt table
-gt_table <- bind_rows(panel_B, panel_A_wide) |> 
+damage_table <- bind_rows(panel_B, panel_A_wide) |> 
   gt() |> 
   # Format percentage columns
   fmt_number(
@@ -252,29 +253,26 @@ gt_table <- bind_rows(panel_B, panel_A_wide) |>
     decimals = 2,
     suffixing = TRUE
   ) |> 
-  # Format the totals in dollars (assuming columns 2:8 contain the totals)
+  # Format the totals in dollars 
   fmt_number(
-    rows = continent == "Total",
+    rows = Continent == "Total",
     columns = 2:8,
     n_sigfig = 2,
     suffixing = TRUE,
-    pattern = "{x} USD"
+    pattern = "${x}"
   ) %>%
   # Format percentages for other rows
   fmt_percent(
-    rows = continent != "Total",
+    rows = Continent != "Total",
     columns = 2:8,
     decimals = 1
   ) |> 
-  # Add titles and footnotes
+  # Add title 
   tab_header(
-    title = "Damage Assessment by Continent and Method",
-    subtitle = "Values are in percentages of GDP/capita except for Total, which is in 2021 International Dollars at PPP."
-  ) |> 
-  tab_source_note(
-    source_note = "Data source: Authors' Calculations"
-  )
+    title = "Damage Assessment by Continent and Method" 
+  ) 
 
 # Print the gt table
-gt_table
+damage_table
 
+gtsave(damage_table, "output/damage_table.docx")
