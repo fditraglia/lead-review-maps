@@ -24,19 +24,20 @@ library(gt) # for table formatting
 # Helper functions
 #------------------------------------------------------------------------------
 make_panel_A <- function(in_data, IQ_integral) {
-  in_data |>  
-    mutate(dollars = popn0019 * gdpc * relative_iq_cost * {{ IQ_integral }}) |> 
-    pull(dollars) |> 
-    sum(na.rm = TRUE) 
-}
-
-make_panel_B <- function(in_data, IQ_integral) {
   in_data |> 
     mutate(percentage = relative_iq_cost * {{ IQ_integral }}) |> 
     filter(!is.na(percentage) & !is.na(popn0019) & !is.na(continent)) |> 
     group_by(continent) |>
     summarize(pw_avg = sum(popn0019 * percentage) / sum(popn0019)) 
 }
+
+make_panel_B <- function(in_data, IQ_integral) {
+  in_data |>  
+    mutate(dollars = popn0019 * gdpc * relative_iq_cost * {{ IQ_integral }}) |> 
+    pull(dollars) |> 
+    sum(na.rm = TRUE) 
+}
+
 
 make_panel_C <- function(in_data, IQ_integral) {
   in_data |> 
@@ -237,28 +238,28 @@ method_names <- c('Baseline',  # Approach (1)
                   '5% increase', # Approach (6)
                   '10% increase') # Approach (7)
 
-panel_A <- tibble(method = method_names,  
-                  total_damage = c(A1, A2, A3, A4, A5, A6, A7))
-
-
-# Rename the column pw_avg from B1, B2, ..., B7 to match method_names
-names(B1)[2] <- method_names[1]
-names(B2)[2] <- method_names[2]
-names(B3)[2] <- method_names[3]
-names(B4)[2] <- method_names[4]
-names(B5)[2] <- method_names[5]
-names(B6)[2] <- method_names[6]
-names(B7)[2] <- method_names[7]
+# Rename the column pw_avg from A1, A2, ..., A7 to match method_names
+names(A1)[2] <- method_names[1]
+names(A2)[2] <- method_names[2]
+names(A3)[2] <- method_names[3]
+names(A4)[2] <- method_names[4]
+names(A5)[2] <- method_names[5]
+names(A6)[2] <- method_names[6]
+names(A7)[2] <- method_names[7]
 
 # Merge into a single table of results
-panel_B <- B1 |> 
-  left_join(B2) |> 
-  left_join(B3) |>
-  left_join(B4) |>
-  left_join(B5) |>
-  left_join(B6) |>
-  left_join(B7) |> 
+panel_A <- A1 |> 
+  left_join(A2) |> 
+  left_join(A3) |>
+  left_join(A4) |>
+  left_join(A5) |>
+  left_join(A6) |>
+  left_join(A7) |> 
   rename(Continent = continent)
+
+panel_B <- tibble(method = method_names,  
+                  total_damage = c(B1, B2, B3, B4, B5, B6, B7))
+
 
 # Rename the value from C1, C2, ..., C7 to match method_names
 names(C1)[2] <- method_names[1]
@@ -278,25 +279,29 @@ panel_C <- C1 |>
   left_join(C6) |>
   left_join(C7)  
 
-# Reshape panel_A to wide format
-panel_A_wide <- panel_A |>
-  pivot_wider(names_from = method, values_from = total_damage)
-
-# Create a placeholder for the continent column
-panel_A_wide <- panel_A_wide |>
-  mutate(Continent = "Total") |> 
-  select(Continent, everything())
-
 # Panel C is mentioned in-text but does not appear in the paper
 panel_C
 
-# Append panel_A to panel_B
-bind_rows(panel_B, panel_A_wide)
+# Reshape panel_B to wide format
+panel_B_wide <- panel_B |>
+  pivot_wider(names_from = method, values_from = total_damage)
+
+# Create a placeholder for the continent column
+panel_B_wide <- panel_B_wide |>
+  mutate(Continent = "Global") |> 
+  select(Continent, everything())
+
+
+# Append panel_A to panel_B to check layout visually
+bind_rows(panel_A, panel_B_wide) 
 
 
 # Create gt table
-damage_table <- bind_rows(panel_B, panel_A_wide) |> 
-  gt() |> 
+damage_table <- bind_rows(
+  panel_A |> mutate(panel = "Panel A: Relative IQ Cost"),
+  panel_B_wide |> mutate(panel = "Panel B: Total IQ Cost")
+) |> 
+  gt(groupname_col = "panel") |> 
   # Format percentage columns
   fmt_number(
     columns = 2:8,
@@ -305,7 +310,7 @@ damage_table <- bind_rows(panel_B, panel_A_wide) |>
   ) |> 
   # Format the totals in dollars 
   fmt_number(
-    rows = Continent == "Total",
+    rows = Continent == "Global",
     columns = 2:8,
     n_sigfig = 2,
     suffixing = TRUE,
@@ -313,28 +318,29 @@ damage_table <- bind_rows(panel_B, panel_A_wide) |>
   ) %>%
   # Format percentages for other rows
   fmt_percent(
-    rows = Continent != "Total",
+    rows = Continent != "Global",
     columns = 2:8,
     decimals = 1
   ) |> 
   # Add title 
   tab_header(
-    title = "Damage Assessment by Continent and Method" 
-  )  |>  
-  # Add a horizontal line above the Total row
-tab_style(
-  style = cell_borders(
-    sides = "top",
-    color = "black",
-    weight = px(2)
-  ),
-  locations = cells_body(
-    rows = Continent == "Total"
+    title = "Estimated Global Cognitive Damage from Childhood Lead Exposure" 
+  ) |>  
+  # Style the row group labels (panel labels)
+  tab_style(
+    style = list(
+      cell_text(weight = "bold"),
+      cell_fill(color = "lightgrey")
+    ),
+    locations = cells_row_groups()
+  ) |>
+  # Hide the "Continent" column label
+  cols_label(
+    Continent = ""
   )
-)
-
 
 # Print the gt table
 damage_table
 
 gtsave(damage_table, "output/damage_table.docx")
+
