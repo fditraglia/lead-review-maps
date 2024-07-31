@@ -315,7 +315,7 @@ damage_table <- bind_rows(
     n_sigfig = 2,
     suffixing = TRUE,
     pattern = "${x}"
-  ) %>%
+  ) |>
   # Format percentages for other rows
   fmt_percent(
     rows = Continent != "Global",
