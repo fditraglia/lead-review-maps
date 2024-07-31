@@ -57,15 +57,21 @@ total10plus <- bll10plus |>
 #
 # Summing these three gives total population aged 0-19.
 #-------------------------------------------------------------------------------
-popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA'),
-                start_date = 2019, end_date = 2019) 
 
-popn <- popn |>  
-  filter(date == 2019) |> 
-  mutate(popn0019 = SP.POP.0014.TO + SP.POP.1519.FE + SP.POP.1519.MA) |> 
-  select(-starts_with('SP.POP'), -iso2c, -date)
+if(!file.exists('data-raw/popn_0_19.csv')) {
+  popn <- wb_data(c('SP.POP.0014.TO', 'SP.POP.1519.FE', 'SP.POP.1519.MA'),
+                  start_date = 2019, end_date = 2019) 
+  
+  popn <- popn |>  
+    filter(date == 2019) |> 
+    mutate(popn0019 = SP.POP.0014.TO + SP.POP.1519.FE + SP.POP.1519.MA) |> 
+    select(-starts_with('SP.POP'), -iso2c, -date)
+  
+  write_csv(popn, 'data-raw/popn_0_19.csv')
+  rm(popn)
+}
 
-
+popn <- read_csv('data-raw/popn_0_19.csv')
 
 #-------------------------------------------------------------------------------
 # Some elements of `location_name` from the GBD lead data do not match the 
@@ -212,19 +218,17 @@ bllGBD <- returns_to_educ |>
   right_join(bllGBD)
 
 # Download gdp per capita at PPP in constant 2021 international $ 
-WBgdpc <- wb_data('NY.GDP.PCAP.PP.KD',
-                  start_date = 2010,
-                  end_date = 2019) |> 
+if(!file.exists('data-raw/gdpc.csv')) {
+  WBgdpc <- wb_data('NY.GDP.PCAP.PP.KD',
+                    start_date = 2010,
+                    end_date = 2019) 
+  
+  write_csv(WBgdpc, 'data-raw/gdpc.csv')
+  rm(WBgdpc)
+}
+
+WBgdpc <- read_csv('data-raw/gdpc.csv') |> 
   rename(gdpc = NY.GDP.PCAP.PP.KD)
-
-
-# For some countries gdpc is only available in selected years.
-WBgdpc |> 
-  filter(!is.na(gdpc)) |> 
-  select(iso3c, date, gdpc) |> 
-  group_by(iso3c) |> 
-  summarize(minYear = min(date), maxYear = max(date), has2019 = 2019 %in% date) |> 
-  filter(!has2019)
 
 # For countries that are missing 2019 gdpc, use the most recent value
 bllGBD <- WBgdpc |> 

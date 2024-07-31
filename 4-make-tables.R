@@ -38,6 +38,16 @@ make_panel_B <- function(in_data, IQ_integral) {
     summarize(pw_avg = sum(popn0019 * percentage) / sum(popn0019)) 
 }
 
+make_panel_C <- function(in_data, IQ_integral) {
+  in_data |> 
+    mutate(percentage = relative_iq_cost * {{ IQ_integral }}) |> 
+    summarize(pw_min = min(percentage, na.rm = TRUE),
+              pw_median = median(percentage, na.rm = TRUE),
+              pw_max = max(percentage, na.rm = TRUE)) |> 
+    pivot_longer(cols = starts_with("pw"), names_to = "stat", 
+                 values_to = "value", names_prefix = "pw_")
+}
+
 #------------------------------------------------------------------------------
 # Approach (1) - Baseline 
 #------------------------------------------------------------------------------
@@ -46,6 +56,9 @@ A1 <- bllGBD |>
 
 B1 <- bllGBD |> 
   make_panel_B(beta_IQ_integral)
+
+C1 <- bllGBD |>
+  make_panel_C(beta_IQ_integral)
 
 #------------------------------------------------------------------------------
 # Approach (2) - Log-normal distributions
@@ -57,6 +70,9 @@ A2 <- bllGBD |>
 B2 <- bllGBD |> 
   make_panel_B(lnorm_IQ_integral)
 
+C2 <- bllGBD |>
+  make_panel_C(lnorm_IQ_integral)
+
 #------------------------------------------------------------------------------
 # Approach (3) - Lower bound on IQ loss
 #------------------------------------------------------------------------------
@@ -66,6 +82,9 @@ A3 <- bllGBD |>
 
 B3 <- bllGBD |> 
   make_panel_B(LB_IQ_integral)
+
+C3 <- bllGBD |>
+  make_panel_C(LB_IQ_integral)
 
 #------------------------------------------------------------------------------
 # Approach (4) - Lower confidence limit from Crump et al. (beta = 1.833)
@@ -80,6 +99,9 @@ A4 <- Crump_lower |>
 
 B4 <- Crump_lower |>
   make_panel_B(beta_IQ_integral)
+
+C4 <- Crump_lower |>
+  make_panel_C(beta_IQ_integral)
   
 # Clean up
 rm(Crump_lower)
@@ -97,6 +119,9 @@ A5 <- Crump_upper |>
 
 B5 <- Crump_upper |>
   make_panel_B(beta_IQ_integral)
+
+C5 <- Crump_upper |>
+  make_panel_C(beta_IQ_integral)
 
 # Clean up
 rm(Crump_upper)
@@ -169,6 +194,9 @@ A6 <- bllGBD_scaled5 |>
 B6 <- bllGBD_scaled5 |>
   make_panel_B(beta_IQ_integral)
 
+C6 <- bllGBD_scaled5 |>
+  make_panel_C(beta_IQ_integral)
+
 # Clean up
 rm(bllGBD_scaled5)
 
@@ -191,6 +219,9 @@ A7 <- bllGBD_scaled10 |>
 
 B7 <- bllGBD_scaled10 |>
   make_panel_B(beta_IQ_integral)
+
+C7 <- bllGBD_scaled10 |>
+  make_panel_C(beta_IQ_integral)
 
 # Clean up
 rm(bllGBD_scaled10)
@@ -229,6 +260,24 @@ panel_B <- B1 |>
   left_join(B7) |> 
   rename(Continent = continent)
 
+# Rename the value from C1, C2, ..., C7 to match method_names
+names(C1)[2] <- method_names[1]
+names(C2)[2] <- method_names[2]
+names(C3)[2] <- method_names[3]
+names(C4)[2] <- method_names[4]
+names(C5)[2] <- method_names[5]
+names(C6)[2] <- method_names[6]
+names(C7)[2] <- method_names[7]
+
+
+panel_C <- C1 |> 
+  left_join(C2) |> 
+  left_join(C3) |>
+  left_join(C4) |>
+  left_join(C5) |>
+  left_join(C6) |>
+  left_join(C7)  
+
 # Reshape panel_A to wide format
 panel_A_wide <- panel_A |>
   pivot_wider(names_from = method, values_from = total_damage)
@@ -238,11 +287,12 @@ panel_A_wide <- panel_A_wide |>
   mutate(Continent = "Total") |> 
   select(Continent, everything())
 
+# Panel C is mentioned in-text but does not appear in the paper
+panel_C
+
 # Append panel_A to panel_B
 bind_rows(panel_B, panel_A_wide)
 
-# Append panel_A to panel_B
-final_panel <- 
 
 # Create gt table
 damage_table <- bind_rows(panel_B, panel_A_wide) |> 
@@ -270,7 +320,19 @@ damage_table <- bind_rows(panel_B, panel_A_wide) |>
   # Add title 
   tab_header(
     title = "Damage Assessment by Continent and Method" 
-  ) 
+  )  |>  
+  # Add a horizontal line above the Total row
+tab_style(
+  style = cell_borders(
+    sides = "top",
+    color = "black",
+    weight = px(2)
+  ),
+  locations = cells_body(
+    rows = Continent == "Total"
+  )
+)
+
 
 # Print the gt table
 damage_table
