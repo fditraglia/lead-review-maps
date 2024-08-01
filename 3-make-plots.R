@@ -16,21 +16,27 @@ theme_update(
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = 100 * frac5plus)) +
-  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") 
+  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") +
+  labs(title = "Fraction of children with BLL > 5 micrograms / deciliter")
 ggsave('output/frac5plus.pdf', width = 7, height = 5)
+ggsave('output/frac5plus.png', width = 7, height = 5)
 
 # Fraction with BLL > 10 micrograms / deciliter
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = 100 * frac10plus)) +
-  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") 
+  scale_fill_viridis_c(name = "%", option = "plasma", trans = "sqrt") +
+  labs(title = "Fraction of children with BLL > 10 micrograms / deciliter")
 ggsave('output/frac10plus.pdf', width = 7, height = 5)
+ggsave('output/frac10plus.png', width = 7, height = 5)
 
 bllWorld |> 
   ggplot() + 
   geom_sf(aes(fill = 100 * relative_iq_cost * beta_IQ_integral)) +
-  scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt')
+  scale_fill_viridis_c(option = "plasma", name = '%', trans = 'sqrt') +
+  labs(title = "Relative IQ cost of lead exposure")
 ggsave('output/relative_iq_cost.pdf', width = 7, height = 5)
+ggsave('output/relative_iq_cost.png', width = 7, height = 5)
 
 #----------------------- Robustness Checks
 # Lognormal
